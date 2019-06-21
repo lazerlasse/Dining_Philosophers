@@ -23,6 +23,7 @@ namespace Dining_Philosophers
 		public MainWindow()
 		{
 			InitializeComponent();
+			Console.WriteLine();
 		}
 	}
 }
