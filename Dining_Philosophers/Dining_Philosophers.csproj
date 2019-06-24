@@ -59,8 +59,8 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\PhilosopherViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="Views\Philosophers.xaml.cs">
-      <DependentUpon>Philosophers.xaml</DependentUpon>
+    <Compile Include="Views\PhilosophersView.xaml.cs">
+      <DependentUpon>PhilosophersView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -74,7 +74,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Philosophers.xaml">
+    <Page Include="Views\PhilosophersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
