@@ -13,10 +13,10 @@ namespace Dining_Philosophers.Models
         public string Name { get; set; }
         public Fork LeftHand { get; set; }
         public Fork RightHand { get; set; }
-        public virtual string Eat(int foodSize)
+        public virtual string Eat(int eatTime)
         {
             // Simulate eating
-            Thread.Sleep(foodSize);
+            Thread.Sleep(eatTime);
             return ID + ": " + Name + " Finished eating";
         }
     }
