@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Models
 {
-	class Fork
-	{
-		public int ForkID { get; set; }
-		public int PlaceAtTable { get; set; }
-	}
+    public class Fork
+    {
+
+    }
 }

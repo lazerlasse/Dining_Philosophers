@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Models
 {
-    public class Philosopher : Person
+    public class Food
     {
+        public string Name { get; set; }
     }
 }

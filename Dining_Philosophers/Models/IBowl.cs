@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Models
 {
-    public class Philosopher : Person
+    interface IBowl
     {
+        Food BowlContent { get; set; }
+        int BowlSize { get; set; }
     }
 }

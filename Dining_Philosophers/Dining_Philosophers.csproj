@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Food.cs" />
+    <Compile Include="Models\IBowl.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Simulator\SimulationManager.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\PhilosopherViewModel.cs" />
