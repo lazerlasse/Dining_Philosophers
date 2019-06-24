@@ -8,5 +8,9 @@ namespace Dining_Philosophers.Models
 {
     public class Philosopher : Person
     {
+		public Philosopher(int id)
+			: base(id, "Philosopher" + id)
+		{
+		}
     }
 }
