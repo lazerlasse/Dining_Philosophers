@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Models
 {
-    public interface IBowl
+    interface IBowl
     {
         Food BowlContent { get; set; }
     }
