@@ -8,6 +8,17 @@ namespace Dining_Philosophers.Models
 {
     public class Fork
     {
+		private int forkID;
 
-    }
+		public int ForkID
+		{
+			get { return forkID; }
+			private set { forkID = value; }
+		}
+
+		public Fork(int id)
+		{
+			ForkID = id;
+		}
+	}
 }
