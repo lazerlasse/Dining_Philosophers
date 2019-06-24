@@ -8,6 +8,22 @@ namespace Dining_Philosophers.Models
 {
     public class Food
     {
-        public string Name { get; set; }
+        // Default Spaghetti
+        private string name = "Spaghetti";
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        // Time to eat in milliseconds
+        private int size = 1000;
+
+        public int Size
+        {
+            get { return size = 2000; }
+            set { size = value; }
+        }
     }
 }

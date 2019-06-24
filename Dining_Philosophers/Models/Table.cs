@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Models
 {
     public class Table : IBowl
     {
-        public int ForkPlaceAtTable { get; set; }
-        public int PersonPlaceAtTable { get; set; }
+        private object forkLock = new object();
+        private static Fork[] forks = new Fork[5];
+        private Thread[] persons = new Thread[5];
+
+
+        public static Fork[] Forks
+        {
+            get { return forks; }
+            set { forks = value; }
+        }
+        public Thread[] Persons
+        {
+            get { return persons; }
+            set { persons = value; }
+        }
+
         public Food BowlContent { get; set; }
-        public int BowlSize { get; set; }
     }
 }

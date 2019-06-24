@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Dining_Philosophers.Models
 {
@@ -13,9 +14,11 @@ namespace Dining_Philosophers.Models
         public Fork LeftHand { get; set; }
         public Fork RightHand { get; set; }
 
-        public virtual string Eat()
+        public virtual string Eat(int foodSize)
         {
-            return string.Empty;
+            // Simulate eating
+            Thread.Sleep(foodSize);
+            return ID + ": " + Name + " Finished eating";
         }
     }
 }

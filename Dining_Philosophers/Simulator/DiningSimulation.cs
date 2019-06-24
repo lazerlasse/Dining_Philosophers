@@ -8,22 +8,14 @@ using Dining_Philosophers.Models;
 
 namespace Dining_Philosophers.Simulator
 {
-    public class SimulationManager
+    public class DiningSimulation : ISimulation
     {
         // Make sizes dynamic later
-        Fork[] forks = new Fork[5];
-        Thread[] philosopers = new Thread[5];
 
-        public void Start(int personAmount)
+
+        public void Start()
         {
-            /*
-            for (int i = 0; i < personAmount; i++)
-            {
-                Thread person = new Thread(new ThreadStart(Start));
-                person.Name 
 
-            }
-            */
         }
 
         public void Stop()
@@ -36,9 +28,15 @@ namespace Dining_Philosophers.Simulator
 
         }
 
-        private void RunSimulation()
+        private void InitializeDiningSimulator(int personAmount)
         {
+            Table table = new Table();
 
+            for (int i = 0; i < personAmount; i++)
+            {
+                table.Persons[i] = new Thread(new ThreadStart(Start));
+
+            }
         }
     }
 }

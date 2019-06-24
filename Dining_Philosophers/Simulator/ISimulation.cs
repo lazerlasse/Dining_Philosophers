@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dining_Philosophers.Models
+namespace Dining_Philosophers.Simulator
 {
-    public interface IBowl
+    public interface ISimulation
     {
-        Food BowlContent { get; set; }
+       void Start();
+       void Stop();
+       void Speed();
     }
 }
