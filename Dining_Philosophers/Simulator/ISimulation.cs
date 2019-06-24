@@ -6,21 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dining_Philosophers.Simulator
 {
-	class SimulationManager
-	{
-		public void Start()
-		{
-
-		}
-
-		public void Stop()
-		{
-
-		}
-
-		public void Speed()
-		{
-
-		}
-	}
+    public interface ISimulation
+    {
+       void Start();
+       void Stop();
+       void Speed();
+    }
 }
