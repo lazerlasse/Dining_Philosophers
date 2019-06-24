@@ -10,8 +10,6 @@ namespace Dining_Philosophers.Simulator
 {
     public class DiningSimulation : ISimulation
     {
-        // Make sizes dynamic later
-
 
         public void Start()
         {
@@ -35,6 +33,7 @@ namespace Dining_Philosophers.Simulator
             for (int i = 0; i < personAmount; i++)
             {
                 table.Persons[i] = new Thread(new ThreadStart(Start));
+                table.Persons[i].Name = i.ToString();
 
             }
         }

@@ -22,7 +22,7 @@ namespace Dining_Philosophers.Models
 
         public int Size
         {
-            get { return size = 2000; }
+            get { return size; }
             set { size = value; }
         }
     }

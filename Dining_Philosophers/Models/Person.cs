@@ -13,7 +13,6 @@ namespace Dining_Philosophers.Models
         public string Name { get; set; }
         public Fork LeftHand { get; set; }
         public Fork RightHand { get; set; }
-
         public virtual string Eat(int foodSize)
         {
             // Simulate eating

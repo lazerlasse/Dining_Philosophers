@@ -14,7 +14,7 @@ namespace Dining_Philosophers.Models
         private Thread[] persons = new Thread[5];
 
 
-        public static Fork[] Forks
+        public Fork[] Forks
         {
             get { return forks; }
             set { forks = value; }
