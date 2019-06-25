@@ -10,7 +10,7 @@ namespace Dining_Philosophers.Simulator
 {
     public class DiningSimulation : ISimulation
     {
-
+        Thread[] diningThreads = new Thread[5];
         public void Start()
         {
 
@@ -26,15 +26,15 @@ namespace Dining_Philosophers.Simulator
 
         }
 
-        private void InitializeDiningSimulator(int personAmount)
+        private void InitializeDiningSimulator(int personAmount, Food food)
         {
-            Table table = new Table();
+            Table table = new Table(personAmount, food);
 
             for (int i = 0; i < personAmount; i++)
             {
-                table.Persons[i] = new Thread(new ThreadStart(Start));
-                table.Persons[i].Name = i.ToString();
-
+                diningThreads[i] = new Thread(new ThreadStart(Start));
+                diningThreads[i].Name = i.ToString();
+                diningThreads[i].Start();
             }
         }
     }
