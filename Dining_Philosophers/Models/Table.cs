@@ -13,7 +13,7 @@ namespace Dining_Philosophers.Models
         private static Fork[] forks = new Fork[5];
         private Person[] persons = new Person[5];
 
-		public Food BowlContent { get; set; }
+        public Food BowlContent { get; set; }
 
         public static Fork[] Forks
         {
@@ -21,23 +21,23 @@ namespace Dining_Philosophers.Models
             private set { forks = value; }
         }
 
-		public Person[] Persons
-		{
-			get { return persons; }
-			private set { persons = value; }
-		}
+        public Person[] Persons
+        {
+            get { return persons; }
+            private set { persons = value; }
+        }
 
-		public Table(int diningPersonCount, Food food)
-		{
-			// Create chosen amount of Philosophers and Forks...
-			for (int i = 0; i < diningPersonCount; i++)
-			{
-				Persons[i] = new Philosopher(i);
-				Forks[i] = new Fork(i);
-			}
+        public Table(int diningPersonCount, Food food)
+        {
+            // Create chosen amount of Philosophers and Forks...
+            for (int i = 0; i < diningPersonCount; i++)
+            {
+                Persons[i] = new Philosopher(i, food.Size);
+                Forks[i] = new Fork(i);
+            }
 
-			// Fill bowl with choosen food.
-			BowlContent = food;
-		}
+            // Fill bowl with choosen food.
+            BowlContent = food;
+        }
     }
 }

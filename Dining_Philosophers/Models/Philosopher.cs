@@ -8,7 +8,8 @@ namespace Dining_Philosophers.Models
 {
     public class Philosopher : Person
     {
-		public Philosopher(int id) : base(id, "Philosopher" + id)
+		public Philosopher(int id, int eatTime)
+            : base(id, "Philosopher" + id, eatTime)
 		{
 		}
     }
