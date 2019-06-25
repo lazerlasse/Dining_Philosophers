@@ -9,8 +9,7 @@ namespace Dining_Philosophers.Models
 {
     public class Table : IBowl
     {
-		// Create new lock object for thread sync...
-        private readonly object forkLock = new object();
+		// Lock object for locking shared resources..
 		private readonly object bowlLock = new object();
 
 		// Set table properties..
