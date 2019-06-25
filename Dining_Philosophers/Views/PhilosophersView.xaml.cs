@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace Dining_Philosophers.Views
 {
-	/// <summary>
-	/// Interaction logic for Philosophers.xaml
-	/// </summary>
-	public partial class Philosophers : Window
-	{
-		public Philosophers()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for Philosophers.xaml
+    /// </summary>
+    public partial class PhilosophersView : Window
+    {
+        public PhilosophersView()
+        {
+            InitializeComponent();
+        }
+    }
 }

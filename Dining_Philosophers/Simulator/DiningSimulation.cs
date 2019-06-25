@@ -13,12 +13,14 @@ namespace Dining_Philosophers.Simulator
         Thread[] diningThreads = new Thread[5];
         public void Start()
         {
-
         }
 
         public void Stop()
         {
-
+            foreach (Thread t in diningThreads)
+            {
+                t.Suspend();
+            }
         }
 
         public void Speed()
