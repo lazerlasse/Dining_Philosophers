@@ -9,11 +9,15 @@ namespace Dining_Philosophers.Models
 {
     public class Table : IBowl
     {
-        private object forkLock = new object();
+		// Create new lock object for thread sync...
+        private readonly object forkLock = new object();
+		private readonly object bowlLock = new object();
+
+		// Set table properties..
         private static Fork[] forks = new Fork[5];
         private Person[] persons = new Person[5];
 
-		public Food BowlContent { get; set; }
+		public Food BowlContent { get; set; }		// Bowl containing food to eat.
 
         public static Fork[] Forks
         {
@@ -27,6 +31,7 @@ namespace Dining_Philosophers.Models
 			private set { persons = value; }
 		}
 
+		// Public table constructor.
 		public Table(int diningPersonCount, Food food)
 		{
 			// Create chosen amount of Philosophers and Forks...
