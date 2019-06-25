@@ -32,17 +32,17 @@ namespace Dining_Philosophers.Models
         }
 
 		// Public Table constructor...
-		public Table(int diningPersonCount, Food food)
+		public Table(int diningPersonCount)
 		{
+            // Fill bowl with choosen food.
+            BowlContent = new Food();
+
 			// Create chosen amount of Philosophers and Forks...
 			for (int i = 0; i < diningPersonCount; i++)
 			{
-				Persons[i] = new Philosopher(i, food.Size);
+				Persons[i] = new Philosopher(i, BowlContent.PortionEatTime);
 				Forks[i] = new Fork(i);
 			}
-
-            // Fill bowl with choosen food.
-            BowlContent = food;
         }
     }
 }
