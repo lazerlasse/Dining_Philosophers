@@ -21,7 +21,7 @@ namespace Dining_Philosophers.Views
 	{
 		public Philosophers()
 		{
-			InitializeComponent();
+			//InitializeComponent();
 		}
 	}
 }
