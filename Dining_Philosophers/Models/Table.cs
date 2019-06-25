@@ -36,7 +36,7 @@ namespace Dining_Philosophers.Models
 			// Create chosen amount of Philosophers and Forks...
 			for (int i = 0; i < diningPersonCount; i++)
 			{
-				Persons[i] = new Philosopher(i);
+				Persons[i] = new Philosopher(i, food.Size);
 				Forks[i] = new Fork(i);
 			}
 
