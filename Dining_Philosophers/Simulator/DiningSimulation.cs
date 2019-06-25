@@ -19,7 +19,7 @@ namespace Dining_Philosophers.Simulator
         {
             foreach (Thread t in diningThreads)
             {
-                t.Suspend();
+                t.Abort();
             }
         }
 
