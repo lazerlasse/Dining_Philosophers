@@ -28,9 +28,9 @@ namespace Dining_Philosophers.Models
             return ID + ": " + Name + " Finished eating";
         }
 
-		public void TryToGetFork()
+		public void TryToGetFork(int locationAtTable)
 		{
-
+           
 		}
 
 		public void Think()
