@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections;
+using System.ComponentModel;
 
 namespace Dining_Philosophers.Models
 {
-    public abstract class Person
+    public abstract class Person : INotifyPropertyChanged
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -23,7 +24,9 @@ namespace Dining_Philosophers.Models
             EatTime = eatTime;
         }
 
-        public void StartLiving()
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void StartLiving()
         {
             while (true)
             {
@@ -168,5 +171,11 @@ namespace Dining_Philosophers.Models
         {
             Thread.Sleep(thinkingTime);
         }
-    }
+
+		// Notify property changed event.
+		protected void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }
