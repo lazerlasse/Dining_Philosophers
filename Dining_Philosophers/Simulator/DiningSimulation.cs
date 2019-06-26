@@ -10,7 +10,7 @@ namespace Dining_Philosophers.Simulator
 {
     public class DiningSimulation : ISimulation
     {
-        Thread[] diningThreads = new Thread[5];
+		private Thread[] diningThreads = new Thread[5];
 
         public void Start()
         {
