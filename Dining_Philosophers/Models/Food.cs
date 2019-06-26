@@ -20,7 +20,7 @@ namespace Dining_Philosophers.Models
             set { name = value; }
         }
 
-        public int Size
+        public int PortionEatTime
         {
             get { return portionEatTime; }
             set { portionEatTime = value; }

@@ -14,6 +14,11 @@ namespace Dining_Philosophers.Simulator
 
         public void Start()
         {
+            foreach (Thread t in diningThreads)
+            {
+                t.Start();
+                t.Join();
+            }
         }
 
         public void Stop()
@@ -29,15 +34,16 @@ namespace Dining_Philosophers.Simulator
 
         }
 
-        private void InitializeDiningSimulator(int personAmount, Food food)
+        public void InitializeDiningSimulator(int personAmount)
         {
-            Table table = new Table(personAmount, food);
+            Table table = new Table(personAmount);
 
             for (int i = 0; i < personAmount; i++)
             {
-                diningThreads[i] = new Thread(new ThreadStart(Start));
-                diningThreads[i].Name = i.ToString();
-                diningThreads[i].Start();
+                diningThreads[i] = new Thread(new ThreadStart(Start))
+                {
+                    Name = i.ToString()
+                };
             }
         }
     }
