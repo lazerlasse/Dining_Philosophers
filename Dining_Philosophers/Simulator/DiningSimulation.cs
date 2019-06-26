@@ -40,7 +40,7 @@ namespace Dining_Philosophers.Simulator
 
             for (int i = 0; i < personAmount; i++)
             {
-                diningThreads[i] = new Thread(new ThreadStart(Start))
+                diningThreads[i] = new Thread(new ThreadStart(table.Persons[i].StartLiving))
                 {
                     Name = i.ToString()
                 };

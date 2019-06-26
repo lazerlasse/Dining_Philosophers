@@ -23,37 +23,55 @@ namespace Dining_Philosophers.Models
             EatTime = eatTime;
         }
 
-		// Method for eating. Dependent on food portion eating time.
+        public void StartLiving()
+        {
+            while (true)
+            {
+                // Tries to get a fork for both hands
+                if(TryToGetFork())
+                {
+                    // Start eating
+                    Eat();
+                }
+                else
+                {
+                    // Remeber to use propertyChanged here
+                    Think(1000);
+                }
+            }
+        }
+
+        // Method for eating. Dependent on food portion eating time.
         public virtual string Eat()
         {
             // Simulate eating
             Thread.Sleep(EatTime);  // Takes the time to eat from choosen food.
-			Monitor.Exit(Table.Forks[LeftHand.ForkID]);
-			Monitor.Exit(Table.Forks[RightHand.ForkID]);
-			RightHand = null;
-			LeftHand = null;
+            Monitor.Exit(Table.Forks[LeftHand.ForkID]);
+            Monitor.Exit(Table.Forks[RightHand.ForkID]);
+            RightHand = null;
+            LeftHand = null;
             return ID + ": " + Name + " Finished eating";
         }
 
-		// Method for trying to get forks on hand...
+        // Method for trying to get forks on hand...
         public bool TryToGetFork()
         {
             // Try getting forks clockwise.
             if (Monitor.TryEnter(Table.Forks[ID]))
             {
-				// Take fork from table to lefthand.
+                // Take fork from table to lefthand.
                 LeftHand = Table.Forks[ID];
 
                 // Check id not out of range.
                 if (ID - 1 == -1)
                 {
-					// Create temporary index id.
+                    // Create temporary index id.
                     int tempId = Table.Forks.Length - 1;
 
                     // Check for right fork.
                     if (Monitor.TryEnter(Table.Forks[tempId]))
                     {
-						// Take the fork from table to righthand.
+                        // Take the fork from table to righthand.
                         RightHand = Table.Forks[tempId];
 
                         // Return succeded the person can now eat.
@@ -61,8 +79,8 @@ namespace Dining_Philosophers.Models
                     }
                     else
                     {
-						// Return fork to table..
-						Monitor.Exit(Table.Forks[LeftHand.ForkID]);
+                        // Return fork to table..
+                        Monitor.Exit(Table.Forks[LeftHand.ForkID]);
                         LeftHand = null;
 
                         // Return not succeded, person can´t eat.
@@ -72,31 +90,31 @@ namespace Dining_Philosophers.Models
                 // Check for right fork
                 else
                 {
-					// Set Id - 1.
+                    // Set Id - 1.
                     int tempId = ID - 1;
 
-					// Check fork is available.
+                    // Check fork is available.
                     if (Monitor.TryEnter(Table.Forks[tempId]))
                     {
-						// Take fork from table to righthand.
+                        // Take fork from table to righthand.
                         RightHand = Table.Forks[tempId];
 
-						// Return succeded the person can now eat..
-						return true;
+                        // Return succeded the person can now eat..
+                        return true;
                     }
-					else
-					{
-						// Return fork to table.
-						Monitor.Exit(Table.Forks[LeftHand.ForkID]);
-						LeftHand = null;
+                    else
+                    {
+                        // Return fork to table.
+                        Monitor.Exit(Table.Forks[LeftHand.ForkID]);
+                        LeftHand = null;
 
-						// Return not succeded, the person can´t eat.
-						return false;
-					}
-				}
+                        // Return not succeded, the person can´t eat.
+                        return false;
+                    }
+                }
             }
 
-			// Try getting forks counter clockwise.
+            // Try getting forks counter clockwise.
             else
             {
                 // Temp id to check..
@@ -115,40 +133,40 @@ namespace Dining_Philosophers.Models
                 // Check for right fork.
                 if (Monitor.TryEnter(Table.Forks[checkId]))
                 {
-					// Take fork from table to right hand..
+                    // Take fork from table to right hand..
                     RightHand = Table.Forks[checkId];
 
                     // Check for left fork.
                     if (Monitor.TryEnter(Table.Forks[ID]))
                     {
-						// Take fork from table to lefthand...
+                        // Take fork from table to lefthand...
                         LeftHand = Table.Forks[ID];
-                        
-						// return succeded, the person can now eat.
+
+                        // return succeded, the person can now eat.
                         return true;
                     }
                     else
                     {
-						// Return fork to table...
-						Monitor.Exit(Table.Forks[RightHand.ForkID]);
+                        // Return fork to table...
+                        Monitor.Exit(Table.Forks[RightHand.ForkID]);
                         RightHand = null;
 
                         // return not succeded, the person can´t eat.
                         return false;
                     }
                 }
-				else
-				{
-					// Return not succeded the person didn´t get a fork.
-					return false;
-				}
+                else
+                {
+                    // Return not succeded the person didn´t get a fork.
+                    return false;
+                }
             }
         }
 
-		// Method for persons thinking time before continiue...
+        // Method for persons thinking time before continiue...
         public void Think(int thinkingTime)
         {
-			Thread.Sleep(thinkingTime);
+            Thread.Sleep(thinkingTime);
         }
     }
 }
