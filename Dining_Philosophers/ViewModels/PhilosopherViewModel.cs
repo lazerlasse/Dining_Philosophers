@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Dining_Philosophers.Delegates;
 
 namespace Dining_Philosophers.ViewModels
 {
@@ -62,8 +63,8 @@ namespace Dining_Philosophers.ViewModels
 
 		public PhilosopherViewModel()
 		{
-			StartButton = new RelayCommand(new Action<object>(StartButtonAction));
-			ResetButton = new RelayCommand(new Action<object>(ResetButtonAction));
+			StartButton = new DelegateCommand(new Action<object>(StartButtonAction));
+			ResetButton = new DelegateCommand(new Action<object>(ResetButtonAction));
 		}
 
 		private void StartButtonAction(object obj)
