@@ -13,8 +13,8 @@ namespace Dining_Philosophers.Models
 		private readonly object bowlLock = new object();
 
 		// Set table properties..
-        private static Fork[] forks = new Fork[5];
-        private Person[] persons = new Person[5];
+        private static Fork[] forks = new Fork[4];
+        private Person[] persons = new Person[4];
 
 		// Bowl with food to eat.
 		public Food BowlContent { get; set; }
