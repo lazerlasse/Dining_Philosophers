@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Dining_Philosophers.ViewModels
+namespace Dining_Philosophers.Delegates
 {
-	class RelayCommand : ICommand
+	class DelegateCommand : ICommand
 	{
 		private readonly Predicate<object> _canExecute;
 		private readonly Action<object> _action;
 
-		public RelayCommand(Action<object> action, Predicate<object> canExecute)
+		public DelegateCommand(Action<object> action, Predicate<object> canExecute)
 		{
 			_canExecute = canExecute;
 			_action = action;
 		}
 
-		public RelayCommand(Action<object> action)
+		public DelegateCommand(Action<object> action)
 			: this(action, null)
 		{
 		}

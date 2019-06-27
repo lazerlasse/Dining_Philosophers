@@ -5,22 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections;
+using System.ComponentModel;
 
 namespace Dining_Philosophers.Models
 {
-    public abstract class Person
+    public abstract class Person : INotifyPropertyChanged
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
-        // A person has two hands, and each hand can hold a Fork object
         public Fork LeftHand { get; set; }
         public Fork RightHand { get; set; }
-
-        // Specifies how long a person eats for, the bigger the food, the longer the person eats.
         public int EatTime { get; private set; }
 
-        // Constructor
         public Person(int id, string name, int eatTime)
         {
             ID = id;
@@ -28,10 +24,10 @@ namespace Dining_Philosophers.Models
             EatTime = eatTime;
         }
 
-        // This method makes a person live, this method is great because a thread can run in here until stopped
-        public void StartLiving()
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void StartLiving()
         {
-            // Infinite loop
             while (true)
             {
                 // Tries to get a fork for both hands
@@ -40,7 +36,6 @@ namespace Dining_Philosophers.Models
                     // Start eating
                     Eat();
                 }
-                // If not successfull, think for X amount of time and try agian 
                 else
                 {
                     // Remeber to use propertyChanged here
@@ -171,10 +166,16 @@ namespace Dining_Philosophers.Models
             }
         }
 
-        // Method for persons think time
+        // Method for persons thinking time before continiue...
         public void Think(int thinkingTime)
         {
             Thread.Sleep(thinkingTime);
         }
-    }
+
+		// Notify property changed event.
+		protected void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }
