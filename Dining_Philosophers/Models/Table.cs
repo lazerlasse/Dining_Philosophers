@@ -13,13 +13,13 @@ namespace Dining_Philosophers.Models
 		private readonly object bowlLock = new object();
 
 		// Set table properties..
-        private static Fork[] forks = new Fork[4];
-        private Person[] persons = new Person[4];
+        private static bool[] forks = new bool[6];
+        private Person[] persons = new Person[6];
 
 		// Bowl with food to eat.
 		public Food BowlContent { get; set; }
 
-        public static Fork[] Forks
+        public static bool[] Forks
         {
             get { return forks; }
             private set { forks = value; }
@@ -41,7 +41,7 @@ namespace Dining_Philosophers.Models
 			for (int i = 0; i < diningPersonCount; i++)
 			{
 				Persons[i] = new Philosopher(i, BowlContent.PortionEatTime);
-				Forks[i] = new Fork(i);
+				Forks[i] = true;
 			}
         }
     }

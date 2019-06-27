@@ -12,12 +12,32 @@ namespace Dining_Philosophers.ViewModels
 {
 	class PhilosopherViewModel : BaseViewModel
 	{
+		// Property changed property for person model.
+		private Person person;
+
 		// Property for the speed slider.
 		private double speedSliderValue;
 
 		// Properties for philosophers hands.
 		private bool philosopher1_RightHandForkVisible;
 		private bool philosopher1_LeftHandForkVisible;
+
+		public bool ForkRightHand
+		{
+			get
+			{
+				return person.HasRightFork;
+			}
+			set
+			{
+				if (person.ID == 0)
+				{
+					philosopher1_RightHandForkVisible = value;
+				}
+				person.HasRightFork = value;
+				
+			}
+		}
 
 		public double SpeedSliderValue
 		{
@@ -77,9 +97,6 @@ namespace Dining_Philosophers.ViewModels
 
 		}
 
-		public void SpeedSliderAction(object obj)
-		{
-
-		}
+		
 	}
 }
