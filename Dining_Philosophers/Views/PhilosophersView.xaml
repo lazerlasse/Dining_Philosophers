@@ -7,7 +7,7 @@
         xmlns:ViewModels="clr-namespace:Dining_Philosophers.ViewModels"
         mc:Ignorable="d"
         Title="Philosophers Simulator" Height="800" Width="1200">
-    
+
     <!-- Setting the datacontext for the view -->
     <Window.DataContext>
         <ViewModels:PhilosopherViewModel/>
@@ -16,7 +16,7 @@
     <Window.Resources >
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
-    
+
     <!-- Parrent top grid view -->
     <Grid>
         <Grid.RowDefinitions>
@@ -120,21 +120,30 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
+
+                <!-- Plates on table -->
+                <Image x:Name="plate1" Grid.Row="2" Grid.Column="0" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate2" Grid.Row="4" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate3" Grid.Row="4" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate4" Grid.Row="2" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate5" Grid.Row="0" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate6" Grid.Row="0" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="middleBowl" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
             </Grid>
 
         </DockPanel>
