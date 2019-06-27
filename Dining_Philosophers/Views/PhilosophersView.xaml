@@ -143,7 +143,7 @@
                 <Image x:Name="plate4" Grid.Row="2" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate5" Grid.Row="0" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate6" Grid.Row="0" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="middleBowl" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="120" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
+                <Image x:Name="middleBowl" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
             </Grid>
 
         </DockPanel>
