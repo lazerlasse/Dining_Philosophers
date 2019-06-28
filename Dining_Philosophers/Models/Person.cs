@@ -11,13 +11,18 @@ namespace Dining_Philosophers.Models
 {
 	public abstract class Person : INotifyPropertyChanged
 	{
-		public int RightForkId { get; set; }
+		private bool hasLeftFork;
+        private bool hasRightFork;
+
+        // Adjecent fork Id's so that they can be picked up and returned by the correct persons
+        public int RightForkId { get; set; }
 		public int LeftForkId { get; set; }
 
-		private bool hasLeftFork;
 
 		public int ID { get; set; }
 		public string Name { get; set; }
+
+        // True when fork is picked up, false if unavailable, has a property changed so that the View is notified when changes occur
 		public bool HasLeftFork
 		{
 			get { return hasLeftFork; }
@@ -27,7 +32,16 @@ namespace Dining_Philosophers.Models
 				OnPropertyChanged("HasLeftFork");
 			}
 		}
-		public bool HasRightFork { get; set; }
+        public bool HasRightFork
+        {
+            get { return hasRightFork; }
+            set
+            {
+                hasRightFork = value;
+                OnPropertyChanged("HasRightFork");
+            }
+        }
+        // Specifies how long a person eats for
 		public int EatTime { get; private set; }
 
 		public Person()
@@ -52,11 +66,13 @@ namespace Dining_Philosophers.Models
 
 			LeftForkId = ID;
 		}
-
+        // Property Changed initialization
 		public event PropertyChangedEventHandler PropertyChanged;
 
+        // Start living, try to get fork, eat and survive
 		public void StartLiving()
 		{
+            // Infinite loop
 			while (true)
 			{
 				// Tries to get a fork for both hands
