@@ -42,7 +42,6 @@ namespace Dining_Philosophers.Simulator
 
         }
 
-
         // Initializes a table with how many persons is selected 
         private void InitializeDiningSimulator(int personAmount)
         {
