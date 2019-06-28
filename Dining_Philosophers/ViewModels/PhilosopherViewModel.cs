@@ -13,37 +13,257 @@ namespace Dining_Philosophers.ViewModels
 {
 	class PhilosopherViewModel : BaseViewModel
 	{
+		// Private properties for philosopher hands.
+		private bool philosopher0_RightHand;
+		private bool philosopher1_RightHand;
+		private bool philosopher2_RightHand;
+		private bool philosopher3_RightHand;
+		private bool philosopher4_RightHand;
+		private bool philosopher5_RightHand;
+		private bool philosopher0_LeftHand;
+		private bool philosopher1_LeftHand;
+		private bool philosopher2_LeftHand;
+		private bool philosopher3_LeftHand;
+		private bool philosopher4_LeftHand;
+		private bool philosopher5_LeftHand;
+
+		// Private properties for the fork on table.
+		private bool forkAtTable0;
+		private bool forkAtTable1;
+		private bool forkAtTable2;
+		private bool forkAtTable3;
+		private bool forkAtTable4;
+		private bool forkAtTable5;
 
 		// Navigation property.
 		public Person person = new Philosopher();
 		public DiningSimulation diningSimulation;
 
+		
 		// Property for the speed slider.
 		private double speedSliderValue;
 
 		// Philosophers right hand properties.
-		public bool Philosopher0_RightHand { get { return Philosopher0_RightHand; } set { Philosopher0_RightHand = value; OnPropertyChanged("Philosopher0_RightHand"); } }
-		public bool Philosopher1_RightHand;
-		public bool Philosopher2_RightHand;
-		public bool Philosopher3_RightHand;
-		public bool Philosopher4_RightHand;
-		public bool Philosopher5_RightHand;
+		public bool Philosopher0_RightHand
+		{
+			get
+			{
+				return philosopher0_RightHand;
+			}
+			set
+			{
+				philosopher0_RightHand = value;
+				OnPropertyChanged("Philosopher0_RightHand");
+			}
+		}
+		public bool Philosopher1_RightHand
+		{
+			get
+			{
+				return philosopher1_RightHand;
+			}
+			set
+			{
+				philosopher1_RightHand = value;
+				OnPropertyChanged("Philosopher1_RightHand");
+			}
+		}
+		public bool Philosopher2_RightHand
+		{
+			get
+			{
+				return philosopher2_RightHand;
+			}
+			set
+			{
+				philosopher2_RightHand = value;
+				OnPropertyChanged("Philosopher2_RightHand");
+			}
+		}
+		public bool Philosopher3_RightHand
+		{
+			get
+			{
+				return philosopher3_RightHand;
+			}
+			set
+			{
+				philosopher3_RightHand = value;
+				OnPropertyChanged("Philosopher3_RightHand");
+			}
+		}
+		public bool Philosopher4_RightHand
+		{
+			get
+			{
+				return philosopher4_RightHand;
+			}
+			set
+			{
+				philosopher4_RightHand = value;
+				OnPropertyChanged("Philosopher4_RightHand");
+			}
+		}
+		public bool Philosopher5_RightHand
+		{
+			get
+			{
+				return philosopher5_RightHand;
+			}
+			set
+			{
+				philosopher5_RightHand = value;
+				OnPropertyChanged("Philosopher5_RightHand");
+			}
+		}
 
-		// Philosophers left hand properties.
-		public bool Philosopher0_LeftHand;
-		public bool Philosopher1_LeftHand;
-		public bool Philosopher2_LeftHand;
-		public bool Philosopher3_LeftHand;
-		public bool Philosopher4_LeftHand;
-		public bool Philosopher5_LeftHand;
+		// Philosophers left hand public properties.
+		public bool Philosopher0_LeftHand
+		{
+			get
+			{
+				return philosopher0_LeftHand;
+			}
+			set
+			{
+				philosopher0_LeftHand = value;
+				OnPropertyChanged("Philosopher0_LeftHand");
+			}
+		}
+		public bool Philosopher1_LeftHand
+		{
+			get
+			{
+				return philosopher1_LeftHand;
+			}
+			set
+			{
+				philosopher1_LeftHand = value;
+				OnPropertyChanged("Philosopher1_LeftHand");
+			}
+		}
+		public bool Philosopher2_LeftHand
+		{
+			get
+			{
+				return philosopher2_LeftHand;
+			}
+			set
+			{
+				philosopher2_LeftHand = value;
+				OnPropertyChanged("Philosopher2_LeftHand");
+			}
+		}
+		public bool Philosopher3_LeftHand
+		{
+			get
+			{
+				return philosopher3_LeftHand;
+			}
+			set
+			{
+				philosopher3_LeftHand = value;
+				OnPropertyChanged("Philosopher3_LeftHand");
+			}
+		}
+		public bool Philosopher4_LeftHand
+		{
+			get
+			{
+				return philosopher4_LeftHand;
+			}
+			set
+			{
+				philosopher4_LeftHand = value;
+				OnPropertyChanged("Philosopher4_LeftHand");
+			}
+		}
+		public bool Philosopher5_LeftHand
+		{
+			get
+			{
+				return philosopher5_LeftHand;
+			}
+			set
+			{
+				philosopher5_LeftHand = value;
+				OnPropertyChanged("Philosopher5_LeftHand");
+			}
+		}
 
 		// Forks at the table properties...
-		public bool ForkAtTable0;
-		public bool ForkAtTable1;
-		public bool ForkAtTable2;
-		public bool ForkAtTable3;
-		public bool ForkAtTable4;
-		public bool ForkAtTable5;
+		public bool ForkAtTable0
+		{
+			get
+			{
+				return forkAtTable0;
+			}
+			set
+			{
+				forkAtTable0 = value;
+				OnPropertyChanged("ForkAtTable0");
+			}
+		}
+		public bool ForkAtTable1
+		{
+			get
+			{
+				return forkAtTable1;
+			}
+			set
+			{
+				forkAtTable1 = value;
+				OnPropertyChanged("ForkAtTable1");
+			}
+		}
+		public bool ForkAtTable2
+		{
+			get
+			{
+				return forkAtTable2;
+			}
+			set
+			{
+				forkAtTable2 = value;
+				OnPropertyChanged("ForkAtTable2");
+			}
+		}
+		public bool ForkAtTable3
+		{
+			get
+			{
+				return forkAtTable3;
+			}
+			set
+			{
+				forkAtTable3 = value;
+				OnPropertyChanged("ForkAtTable3");
+			}
+		}
+		public bool ForkAtTable4
+		{
+			get
+			{
+				return forkAtTable4;
+			}
+			set
+			{
+				forkAtTable4 = value;
+				OnPropertyChanged("ForkAtTable4");
+			}
+		}
+		public bool ForkAtTable5
+		{
+			get
+			{
+				return forkAtTable5;
+			}
+			set
+			{
+				forkAtTable5 = value;
+				OnPropertyChanged("ForkAtTable5");
+			}
+		}
 
 		private bool ForkRightHand
 		{
@@ -215,13 +435,9 @@ namespace Dining_Philosophers.ViewModels
 
 		public PhilosopherViewModel()
 		{
-
-		}
-
-		public PhilosopherViewModel(DiningSimulation simulation)
-		{
 			// Set the simulation to use.
-			diningSimulation = simulation;
+			// Added amout of philosophers static..... Change this to binding......
+			diningSimulation = new DiningSimulation(6);
 
 			// Create new delegate commands for the buttons in PhilosophersView.
 			StartButton = new DelegateCommand(new Action<object>(StartButtonAction));

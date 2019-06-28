@@ -26,17 +26,8 @@ namespace Dining_Philosophers
 		public MainWindow()
 		{
 			InitializeComponent();
-
-			// Create new Dinining Philosophers view.
-			PhilosophersView View = new PhilosophersView();
-
-			// Create new PhilosophersViewModel instance and pass in new SimulationManager.
-			DiningSimulation simulationManager = new DiningSimulation(6);
-			PhilosopherViewModel philosophersViewModel = new PhilosopherViewModel(simulationManager);
-
-			// Add PhilosophersViewModel as datacontext to thew PhilosophersView.
-			View.DataContext = philosophersViewModel;
-			View.Show();
+			PhilosophersView philosophersView = new PhilosophersView();
+			philosophersView.Show();
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
