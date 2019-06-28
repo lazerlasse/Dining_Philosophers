@@ -24,7 +24,6 @@ namespace Dining_Philosophers.Simulator
             foreach (Thread t in table.PhilosopherThreads)
             {
                 t.Start();
-                t.Join();
             }
         }
 

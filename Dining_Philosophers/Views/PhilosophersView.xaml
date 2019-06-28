@@ -8,8 +8,12 @@
         mc:Ignorable="d"
         Title="Philosophers Simulator" Height="800" Width="1200">
 
+    <Window.DataContext>
+        <ViewModels:PhilosopherViewModel/>
+    </Window.DataContext>
 
-        <Window.Resources >
+    <!-- Load resource boolean to visibility converter -->
+    <Window.Resources >
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
 

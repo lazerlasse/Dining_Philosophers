@@ -16,7 +16,7 @@ namespace Dining_Philosophers.ViewModels
 
 		// Navigation property.
 		public Person person = new Philosopher();
-		public ISimulation diningSimulation;
+		public DiningSimulation diningSimulation;
 
 		// Property for the speed slider.
 		private double speedSliderValue;
@@ -213,7 +213,12 @@ namespace Dining_Philosophers.ViewModels
 			}
 		}
 
-		public PhilosopherViewModel(ISimulation simulation)
+		public PhilosopherViewModel()
+		{
+
+		}
+
+		public PhilosopherViewModel(DiningSimulation simulation)
 		{
 			// Set the simulation to use.
 			diningSimulation = simulation;
@@ -221,11 +226,6 @@ namespace Dining_Philosophers.ViewModels
 			// Create new delegate commands for the buttons in PhilosophersView.
 			StartButton = new DelegateCommand(new Action<object>(StartButtonAction));
 			ResetButton = new DelegateCommand(new Action<object>(ResetButtonAction));
-		}
-
-		public PhilosopherViewModel()
-		{
-
 		}
 
 		private void StartButtonAction(object obj)
