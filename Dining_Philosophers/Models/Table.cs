@@ -13,16 +13,17 @@ namespace Dining_Philosophers.Models
 		private readonly object bowlLock = new object();
 
 		// Set table properties..
-        private static bool[] forks = new bool[6];
-        private Person[] persons = new Person[6];
+        private static object[] forks;
+        private Person[] persons;
+		private Thread[] philosopherThreads;
 
 		// Bowl with food to eat.
 		public Food BowlContent { get; set; }
 
-        public static bool[] Forks
+        public static object[] Forks
         {
             get { return forks; }
-            private set { forks = value; }
+            set { forks = value; }
         }
 
         public Person[] Persons
@@ -31,11 +32,26 @@ namespace Dining_Philosophers.Models
             private set { persons = value; }
         }
 
+		public Thread[] PhilosopherThreads
+		{
+			get
+			{
+				return philosopherThreads;
+			}
+			set
+			{
+				philosopherThreads = value;
+			}
+		}
+
 		// Public Table constructor...
 		public Table(int diningPersonCount)
 		{
             // Fill bowl with choosen food.
             BowlContent = new Food();
+			Forks = new object[diningPersonCount];
+			Persons = new Person[diningPersonCount];
+			PhilosopherThreads = new Thread[diningPersonCount];
 
 			// Create chosen amount of Philosophers and Forks...
 			for (int i = 0; i < diningPersonCount; i++)

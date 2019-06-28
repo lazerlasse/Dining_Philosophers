@@ -12,5 +12,11 @@ namespace Dining_Philosophers.Models
             : base(id, "Philosopher" + id, eatTime)
 		{
 		}
+
+		public Philosopher()
+			: base()
+		{
+
+		}
     }
 }

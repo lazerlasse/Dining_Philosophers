@@ -8,12 +8,8 @@
         mc:Ignorable="d"
         Title="Philosophers Simulator" Height="800" Width="1200">
 
-    <!-- Setting the datacontext for the view -->
-    <Window.DataContext>
-        <ViewModels:PhilosopherViewModel/>
-    </Window.DataContext>
 
-    <Window.Resources >
+        <Window.Resources >
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
 
@@ -95,7 +91,7 @@
 
                 <!-- Philosopher seat 1 at the table -->
                 <Image x:Name="PhilosopherTableSeat1" Grid.Row="2" Height="150" Width="150" Source="/Images/PhilosopherLeft.png" VerticalAlignment="Center"/>
-                <Image x:Name="RightForkAtSeat1" Grid.Row="1" Source="/Images/ForkRight.png" Visibility="Visible"/>
+                <Image x:Name="RightForkAtSeat1" Source="/Images/ForkRight.png" Visibility="Visible" Grid.Row="1"/>
                 <Image x:Name="LeftForkAtSeat1" Grid.Row="3" Source="/Images/ForkLeft.png" Visibility="{Binding Philosopher1_RightHandForkEnable, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
 

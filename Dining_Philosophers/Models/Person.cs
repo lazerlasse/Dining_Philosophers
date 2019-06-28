@@ -11,8 +11,8 @@ namespace Dining_Philosophers.Models
 {
 	public abstract class Person : INotifyPropertyChanged
 	{
-		private int rightForkId;
-		private int leftForkId;
+		public int RightForkId { get; set; }
+		public int LeftForkId { get; set; }
 
 		private bool hasLeftFork;
 
@@ -30,6 +30,11 @@ namespace Dining_Philosophers.Models
 		public bool HasRightFork { get; set; }
 		public int EatTime { get; private set; }
 
+		public Person()
+		{
+
+		}
+
 		public Person(int id, string name, int eatTime)
 		{
 			ID = id;
@@ -38,14 +43,14 @@ namespace Dining_Philosophers.Models
 
 			if (ID - 1 == -1)
 			{
-				rightForkId = Table.Forks.Length - 1;
+				RightForkId = Table.Forks.Length - 1;
 			}
 			else
 			{
-				rightForkId = ID - 1;
+				RightForkId = ID - 1;
 			}
 
-			leftForkId = ID;
+			LeftForkId = ID;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -73,8 +78,8 @@ namespace Dining_Philosophers.Models
 		{
 			// Simulate eating
 			Thread.Sleep(EatTime);  // Takes the time to eat from choosen food.
-			Monitor.Exit(Table.Forks[leftForkId] = true);
-			Monitor.Exit(Table.Forks[rightForkId] = true);
+			Monitor.Exit(Table.Forks[LeftForkId]);
+			Monitor.Exit(Table.Forks[RightForkId]);
 			HasRightFork = false;
 			HasLeftFork = false;
 			return ID + ": " + Name + " Finished eating";
@@ -84,13 +89,13 @@ namespace Dining_Philosophers.Models
 		public bool TryToGetFork()
 		{
 			// Try getting forks clockwise.
-			if (Monitor.TryEnter(Table.Forks[leftForkId] = false))
+			if (Monitor.TryEnter(Table.Forks[LeftForkId]))
 			{
 				// Take fork from table to lefthand.
 				HasLeftFork = true;
 
 				// Check for right fork.
-				if (Monitor.TryEnter(Table.Forks[rightForkId] = false))
+				if (Monitor.TryEnter(Table.Forks[RightForkId]))
 				{
 					// Take the fork from table to righthand.
 					HasRightFork = true;
@@ -101,7 +106,7 @@ namespace Dining_Philosophers.Models
 				else
 				{
 					// Return fork to table..
-					Monitor.Exit(Table.Forks[leftForkId] = true);
+					Monitor.Exit(Table.Forks[LeftForkId]);
 					HasLeftFork = false;
 
 					// Return not succeded, person can´t eat.
@@ -113,13 +118,13 @@ namespace Dining_Philosophers.Models
 			else
 			{
 				// Check for right fork.
-				if (Monitor.TryEnter(Table.Forks[rightForkId] = false))
+				if (Monitor.TryEnter(Table.Forks[RightForkId]))
 				{
 					// Take fork from table to right hand..
 					HasRightFork = true;
 
 					// Check for left fork.
-					if (Monitor.TryEnter(Table.Forks[leftForkId] = false))
+					if (Monitor.TryEnter(Table.Forks[LeftForkId]))
 					{
 						// Take fork from table to lefthand...
 						HasLeftFork = true;
@@ -130,7 +135,7 @@ namespace Dining_Philosophers.Models
 					else
 					{
 						// Return fork to table...
-						Monitor.Exit(Table.Forks[rightForkId] = true);
+						Monitor.Exit(Table.Forks[RightForkId]);
 						HasRightFork = false;
 
 						// return not succeded, the person can´t eat.
