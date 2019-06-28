@@ -12,6 +12,7 @@ namespace Dining_Philosophers.Models
 	public abstract class Person : INotifyPropertyChanged
 	{
 		private bool hasLeftFork;
+        private bool hasRightFork;
 
         // Adjecent fork Id's so that they can be picked up and returned by the correct persons
         public int RightForkId { get; set; }
@@ -31,7 +32,15 @@ namespace Dining_Philosophers.Models
 				OnPropertyChanged("HasLeftFork");
 			}
 		}
-		public bool HasRightFork { get; set; }
+        public bool HasRightFork
+        {
+            get { return hasRightFork; }
+            set
+            {
+                hasRightFork = value;
+                OnPropertyChanged("HasRightFork");
+            }
+        }
         // Specifies how long a person eats for
 		public int EatTime { get; private set; }
 
