@@ -14,11 +14,13 @@ namespace Dining_Philosophers.Models
 		private bool hasLeftFork;
         private bool hasRightFork;
 
+		private double thinkingTime;
+
         // Adjecent fork Id's so that they can be picked up and returned by the correct persons
         public int RightForkId { get; set; }
 		public int LeftForkId { get; set; }
 
-
+		// Id and name property.
 		public int ID { get; set; }
 		public string Name { get; set; }
 
@@ -41,12 +43,26 @@ namespace Dining_Philosophers.Models
                 OnPropertyChanged("HasRightFork");
             }
         }
-        // Specifies how long a person eats for
+        
+		// Public property for thinking time.
+		public double ThinkingTime
+		{
+			get
+			{
+				return thinkingTime;
+			}
+			set
+			{
+				thinkingTime = value;
+				OnPropertyChanged("ThinkingTime");
+			}
+		}
+		
+		// Specifies how long a person eats for
 		public int EatTime { get; private set; }
 
 		public Person()
 		{
-
 		}
 
 		public Person(int id, string name, int eatTime)
@@ -66,7 +82,9 @@ namespace Dining_Philosophers.Models
 
 			LeftForkId = ID;
 		}
-        // Property Changed initialization
+        
+		
+		// Property Changed initialization
 		public event PropertyChangedEventHandler PropertyChanged;
 
         // Start living, try to get fork, eat and survive
@@ -84,7 +102,7 @@ namespace Dining_Philosophers.Models
 				else
 				{
 					// Remeber to use propertyChanged here
-					Think(1000);
+					Think();
 				}
 			}
 		}
@@ -167,9 +185,9 @@ namespace Dining_Philosophers.Models
 		}
 
 		// Method for persons thinking time before continiue...
-		public void Think(int thinkingTime)
+		public void Think()
 		{
-			Thread.Sleep(thinkingTime);
+			Thread.Sleep((int)thinkingTime);
 		}
 
 		// Notify property changed event.

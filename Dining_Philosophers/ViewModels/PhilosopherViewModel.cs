@@ -424,11 +424,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return speedSliderValue;
+				return person.ThinkingTime;
 			}
 			set
 			{
-				speedSliderValue = value;
+				person.ThinkingTime = value;
 				OnPropertyChanged("SpeedSliderValue");
 			}
 		}

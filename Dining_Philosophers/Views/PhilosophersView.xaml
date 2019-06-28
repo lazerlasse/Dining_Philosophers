@@ -165,7 +165,7 @@
 
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,0,10,10">
                 <Label x:Name="SpeedSliderLabel" Content="Hastighed" FontSize="12"/>
-                <Slider x:Name="SpeedSlider" Minimum="300" Maximum="5000" />
+                <Slider x:Name="SpeedSlider" Minimum="300" Maximum="5000" Value="{Binding SpeedSliderValue}" />
             </StackPanel>
         </Grid>
 
