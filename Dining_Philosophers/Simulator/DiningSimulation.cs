@@ -8,56 +8,46 @@ using Dining_Philosophers.Models;
 
 namespace Dining_Philosophers.Simulator
 {
-    public class DiningSimulation : ISimulation
-    {
-		// Intializes a thread
-		Table table;
+	public class DiningSimulation : ISimulation
+	{
+		private Table _table;
+		private static readonly object Running = new object();
 
-		public DiningSimulation(int personsAmount)
+		public DiningSimulation(int personsAmount, Table table)
 		{
+			_table = table;
 			InitializeDiningSimulator(personsAmount);
 		}
 
-        // Starts the threads
-        public void Start()
-        {
-            foreach (Thread t in table.PhilosopherThreads)
-            {
-                t.Start();
-            }
-        }
+		// Starts the threads
+		public void Start()
+		{
+			foreach (Thread t in _table.PhilosopherThreads)
+			{
+				t.Start();
+			}
+		}
 
-        // Resets the threads
-        public void Reset()
-        {
-            foreach (Thread t in table.PhilosopherThreads)
-            {
-                t.Abort();
-            }
-        }
+		// Resets the threads
+		public void Pause()
+		{
+			
+		}
 
-        // Changes the speed at which the simulation is playing
-        public void Speed()
-        {
 
-        }
-
-        // Initializes a table with how many persons is selected 
-        private void InitializeDiningSimulator(int personAmount)
-        {
-            // Initialize table
-            table = new Table(personAmount);
-
-            // Assign each thread to a person
-            for (int i = 0; i < personAmount; i++)
-            {
-                // Each thread starts their person.startliving method
-                table.PhilosopherThreads[i] = new Thread(new ThreadStart(table.Persons[i].StartLiving))
-                {
-                    // Names the thread after the order it was 
-                    Name = i.ToString()
-                };
-            }
-        }
-    }
+		// Initializes a table with how many persons is selected 
+		private void InitializeDiningSimulator(int personAmount)
+		{
+			// Assign each thread to a person
+			for (int i = 0; i < personAmount; i++)
+			{
+				// Each thread starts their person.startliving method
+				_table.PhilosopherThreads[i] = new Thread(new ThreadStart(_table.Persons[i].StartLiving))
+				{
+					// Names the thread after the order it was 
+					Name = i.ToString()
+				};
+			}
+		}
+	}
 }

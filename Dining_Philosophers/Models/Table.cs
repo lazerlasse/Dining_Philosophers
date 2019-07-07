@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +16,7 @@ namespace Dining_Philosophers.Models
 
 		// Set table properties..
         private static object[] forks;
-        private Person[] persons;
+        private ObservableCollection<Person> persons;
 		private Thread[] philosopherThreads;
 
 		// Bowl with food to eat.
@@ -26,10 +28,16 @@ namespace Dining_Philosophers.Models
             set { forks = value; }
         }
 
-        public Person[] Persons
+        public ObservableCollection<Person> Persons
         {
-            get { return persons; }
-            private set { persons = value; }
+            get
+			{
+				return persons;
+			}
+            set
+			{
+				persons = value;
+			}
         }
 
 		public Thread[] PhilosopherThreads
@@ -50,15 +58,15 @@ namespace Dining_Philosophers.Models
             // Fill bowl with choosen food.
             BowlContent = new Food();
 			Forks = new object[diningPersonCount];
-			Persons = new Person[diningPersonCount];
+			Persons = new ObservableCollection<Person>();
 			PhilosopherThreads = new Thread[diningPersonCount];
 
 			// Create chosen amount of Philosophers and Forks...
 			for (int i = 0; i < diningPersonCount; i++)
 			{
-				Persons[i] = new Philosopher(i, BowlContent.PortionEatTime);
-				Forks[i] = true;
+				Persons.Insert(i, new Philosopher(i, BowlContent.PortionEatTime));
+				Forks[i] = new object();
 			}
         }
-    }
+	}
 }

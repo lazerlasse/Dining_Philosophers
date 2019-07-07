@@ -10,7 +10,6 @@ namespace Dining_Philosophers.Simulator
     public interface ISimulation
     {
         void Start();
-        void Reset();
-        void Speed();
+        void Pause();
     }
 }

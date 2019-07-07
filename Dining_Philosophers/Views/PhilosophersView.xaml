@@ -43,15 +43,15 @@
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Philosopher seat 3 at the table -->
-                <Image x:Name="PhilosopherTableSeat3" Grid.Column="3" Height="150" Width="150" Source="/Images/PhilosopherUp.png" HorizontalAlignment="Center"/>
-                <Image x:Name="RightForkAtSeat3" Grid.Column="2" Source="/Images/ForkDown.png"/>
-                <Image x:Name="LeftForkAtSeat3" Grid.Column="4" Source="/Images/ForkDown.png"/>
+                <!-- Philosopher seat 1 at the table -->
+                <Image x:Name="PhilosopherTableSeat1" Grid.Column="3" Height="150" Width="150" Source="/Images/PhilosopherUp.png" HorizontalAlignment="Center"/>
+                <Image x:Name="RightForkAtSeat1" Grid.Column="2" Source="/Images/ForkDown.png" Visibility="{Binding Persons[1].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="LeftForkAtSeat1" Grid.Column="4" Source="/Images/ForkDown.png" Visibility="{Binding Persons[1].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                <!-- Philosopher seat 5 at the table -->
-                <Image x:Name="PhilosopherTableSeat5" Grid.Column="7" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherUp.png"/>
-                <Image x:Name="RightForkAtSeat5" Grid.Column="6" Source="/Images/ForkDown.png"/>
-                <Image x:Name="LeftForkAtSeat5" Grid.Column="8" Source="/Images/ForkDown.png"/>
+                <!-- Philosopher seat 2 at the table -->
+                <Image x:Name="PhilosopherTableSeat2" Grid.Column="7" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherUp.png"/>
+                <Image x:Name="RightForkAtSeat2" Grid.Column="6" Source="/Images/ForkDown.png" Visibility="{Binding Persons[2].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="LeftForkAtSeat2" Grid.Column="8" Source="/Images/ForkDown.png" Visibility="{Binding Persons[2].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
             </Grid>
 
@@ -71,15 +71,15 @@
                     <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Philosopher seat 4 at the table -->
-                <Image x:Name="PhilosopherTableSeat4" Grid.Column="2" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherDown.png" Grid.ColumnSpan="3" Margin="36,0" Grid.RowSpan="2"/>
-                <Image x:Name="LeftForkAtSeat4" Grid.Column="2" Source="/Images/ForkUp.png" Grid.RowSpan="2"/>
-                <Image x:Name="RightForkAtSeat4" Grid.Column="4" Source="/Images/ForkUp.png" Grid.RowSpan="2"/>
+                <!-- Philosopher seat 5 at the table -->
+                <Image x:Name="PhilosopherTableSeat5" Grid.Column="2" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherDown.png" Grid.ColumnSpan="3" Margin="36,0" Grid.RowSpan="2"/>
+                <Image x:Name="LeftForkAtSeat5" Grid.Column="2" Source="/Images/ForkUp.png" Grid.RowSpan="2" Visibility="{Binding Persons[5].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="RightForkAtSeat5" Grid.Column="4" Source="/Images/ForkUp.png" Grid.RowSpan="2" Visibility="{Binding Persons[5].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                <!-- Philosopher seat 6 at the table -->
-                <Image x:Name="PhilosopherTableSeat6" Grid.Column="6" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherDown.png" Grid.ColumnSpan="3" Margin="37,0" Grid.RowSpan="2"/>
-                <Image x:Name="LeftForkAtSeat6" Grid.Column="6" Source="/Images/ForkUp.png" Grid.RowSpan="2"/>
-                <Image x:Name="RightForkAtSeat6" Grid.Column="8" Source="/Images/ForkUp.png" Grid.RowSpan="2"/>
+                <!-- Philosopher seat 4 at the table -->
+                <Image x:Name="PhilosopherTableSeat4" Grid.Column="6" HorizontalAlignment="Center" Height="150" Width="150" Source="/Images/PhilosopherDown.png" Grid.ColumnSpan="3" Margin="37,0" Grid.RowSpan="2"/>
+                <Image x:Name="LeftForkAtSeat4" Grid.Column="6" Source="/Images/ForkUp.png" Grid.RowSpan="2" Visibility="{Binding Persons[4].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="RightForkAtSeat4" Grid.Column="8" Source="/Images/ForkUp.png" Grid.RowSpan="2" Visibility="{Binding Persons[4].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
             </Grid>
 
@@ -93,10 +93,10 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Philosopher seat 1 at the table -->
-                <Image x:Name="PhilosopherTableSeat1" Grid.Row="2" Height="150" Width="150" Source="/Images/PhilosopherLeft.png" VerticalAlignment="Center"/>
-                <Image x:Name="RightForkAtSeat1" Source="/Images/ForkRight.png" Visibility="{Binding Philosopher0_RightHand}" Grid.Row="1"/>
-                <Image x:Name="LeftForkAtSeat1" Grid.Row="3" Source="/Images/ForkLeft.png" Visibility="{Binding Philosopher1_RightHandForkEnable, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <!-- Philosopher seat 0 at the table -->
+                <Image x:Name="PhilosopherTableSeat0" Grid.Row="2" Height="150" Width="150" Source="/Images/PhilosopherLeft.png" VerticalAlignment="Center"/>
+                <Image x:Name="LeftForkAtSeat0" Source="/Images/ForkRight.png" Visibility="{Binding Persons[0].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}" Grid.Row="1"/>
+                <Image x:Name="RightForkAtSeat0" Grid.Row="3" Source="/Images/ForkRight.png" Visibility="{Binding Persons[0].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
 
             <!-- Right side of table -->
@@ -109,10 +109,10 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Philosopher seat 2 at the table -->
-                <Image x:Name="PhilosopherTableSeat2" Grid.Row="2" Height="150" Width="150" Source="/Images/PhilosopherRight.png" VerticalAlignment="Center"/>
-                <Image x:Name="RightForkAtSeat2" Grid.Row="1" Source="/Images/ForkLeft.png"/>
-                <Image x:Name="LeftForkAtSeat2" Grid.Row="3" Source="/Images/ForkLeft.png"/>
+                <!-- Philosopher seat 3 at the table -->
+                <Image x:Name="PhilosopherTableSeat3" Grid.Row="2" Height="150" Width="150" Source="/Images/PhilosopherRight.png" VerticalAlignment="Center"/>
+                <Image x:Name="RightForkAtSeat3" Grid.Row="1" Source="/Images/ForkLeft.png" Visibility="{Binding Persons[3].HasRightFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="LeftForkAtSeat3" Grid.Row="3" Source="/Images/ForkLeft.png" Visibility="{Binding Persons[3].HasLeftFork, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
 
             <!-- Dining Table - Center of the screen -->
@@ -129,21 +129,19 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Plates on table -->
-                <Image x:Name="plate1" Grid.Row="2" Grid.Column="0" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate1" Grid.Row="1" Grid.Column="0" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate2" Grid.Row="4" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate3" Grid.Row="4" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate4" Grid.Row="2" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate4" Grid.Row="1" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate5" Grid.Row="0" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
                 <Image x:Name="plate6" Grid.Row="0" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="middleBowl" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
+                <Image x:Name="middleBowl" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
             </Grid>
 
         </DockPanel>
@@ -160,8 +158,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- Button and sliders section -->
-            <Button x:Name="StartButton" Content="Start" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding StartButton}"/>
-            <Button x:Name="ResetButton" Content="Nulstil" FontWeight="Bold" Grid.Column="1" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding ResetButton}"/>
+            <Button x:Name="StartButton" Content="Start" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding StartButton}" Background="{Binding ButtonColor}"/>
+            <Button x:Name="ResetButton" Content="Nulstil" FontWeight="Bold" Grid.Column="1" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding ResetButton}" />
 
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,0,10,10">
                 <Label x:Name="SpeedSliderLabel" Content="Hastighed" FontSize="12"/>

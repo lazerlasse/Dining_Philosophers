@@ -14,7 +14,9 @@ namespace Dining_Philosophers.Models
 		private bool hasLeftFork;
         private bool hasRightFork;
 
-		private double thinkingTime;
+		private double thinkingTime = 1000;
+
+		private Random Random = new Random();
 
         // Adjecent fork Id's so that they can be picked up and returned by the correct persons
         public int RightForkId { get; set; }
@@ -101,14 +103,13 @@ namespace Dining_Philosophers.Models
 				}
 				else
 				{
-					// Remeber to use propertyChanged here
 					Think();
 				}
 			}
 		}
 
 		// Method for eating. Dependent on food portion eating time.
-		public virtual string Eat()
+		public void Eat()
 		{
 			// Simulate eating
 			Thread.Sleep(EatTime);  // Takes the time to eat from choosen food.
@@ -116,7 +117,6 @@ namespace Dining_Philosophers.Models
 			Monitor.Exit(Table.Forks[RightForkId]);
 			HasRightFork = false;
 			HasLeftFork = false;
-			return ID + ": " + Name + " Finished eating";
 		}
 
 		// Method for trying to get forks on hand...
@@ -127,6 +127,7 @@ namespace Dining_Philosophers.Models
 			{
 				// Take fork from table to lefthand.
 				HasLeftFork = true;
+				Thread.Sleep(Random.Next(100, 1500));
 
 				// Check for right fork.
 				if (Monitor.TryEnter(Table.Forks[RightForkId]))
@@ -156,6 +157,7 @@ namespace Dining_Philosophers.Models
 				{
 					// Take fork from table to right hand..
 					HasRightFork = true;
+					Thread.Sleep(Random.Next(100, 1500));
 
 					// Check for left fork.
 					if (Monitor.TryEnter(Table.Forks[LeftForkId]))

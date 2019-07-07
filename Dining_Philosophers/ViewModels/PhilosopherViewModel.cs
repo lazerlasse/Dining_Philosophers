@@ -8,24 +8,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Dining_Philosophers.Delegates;
 using Dining_Philosophers.Simulator;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace Dining_Philosophers.ViewModels
 {
 	class PhilosopherViewModel : BaseViewModel
 	{
-		// Private properties for philosopher hands.
-		private bool philosopher0_RightHand;
-		private bool philosopher1_RightHand;
-		private bool philosopher2_RightHand;
-		private bool philosopher3_RightHand;
-		private bool philosopher4_RightHand;
-		private bool philosopher5_RightHand;
-		private bool philosopher0_LeftHand;
-		private bool philosopher1_LeftHand;
-		private bool philosopher2_LeftHand;
-		private bool philosopher3_LeftHand;
-		private bool philosopher4_LeftHand;
-		private bool philosopher5_LeftHand;
+		private Table table;
 
 		// Private properties for the fork on table.
 		private bool forkAtTable0;
@@ -35,24 +25,22 @@ namespace Dining_Philosophers.ViewModels
 		private bool forkAtTable4;
 		private bool forkAtTable5;
 
-		// Navigation property.
-		public Person person = new Philosopher();
-		public DiningSimulation diningSimulation;
+		// Button settings properties.
+		private Brush buttonColor = Brushes.LightGray;
 
-		
-		// Property for the speed slider.
-		private double speedSliderValue;
+		// Navigation property.
+		private DiningSimulation diningSimulation;
 
 		// Philosophers right hand properties.
 		public bool Philosopher0_RightHand
 		{
 			get
 			{
-				return philosopher0_RightHand;
+				return Persons.ElementAt(0).HasRightFork;
 			}
 			set
 			{
-				philosopher0_RightHand = value;
+				Persons.ElementAt(0).HasRightFork = value;
 				OnPropertyChanged("Philosopher0_RightHand");
 			}
 		}
@@ -60,11 +48,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher1_RightHand;
+				return Persons.ElementAt(1).HasRightFork;
 			}
 			set
 			{
-				philosopher1_RightHand = value;
+				Persons.ElementAt(1).HasRightFork = value;
 				OnPropertyChanged("Philosopher1_RightHand");
 			}
 		}
@@ -72,11 +60,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher2_RightHand;
+				return table.Persons[2].HasRightFork;
 			}
 			set
 			{
-				philosopher2_RightHand = value;
+				table.Persons[2].HasRightFork = value;
 				OnPropertyChanged("Philosopher2_RightHand");
 			}
 		}
@@ -84,11 +72,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher3_RightHand;
+				return table.Persons[3].HasRightFork;
 			}
 			set
 			{
-				philosopher3_RightHand = value;
+				table.Persons[3].HasRightFork = value;
 				OnPropertyChanged("Philosopher3_RightHand");
 			}
 		}
@@ -96,11 +84,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher4_RightHand;
+				return table.Persons[4].HasRightFork;
 			}
 			set
 			{
-				philosopher4_RightHand = value;
+				table.Persons[4].HasRightFork = value;
 				OnPropertyChanged("Philosopher4_RightHand");
 			}
 		}
@@ -108,11 +96,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher5_RightHand;
+				return table.Persons[5].HasRightFork;
 			}
 			set
 			{
-				philosopher5_RightHand = value;
+				table.Persons[5].HasRightFork = value;
 				OnPropertyChanged("Philosopher5_RightHand");
 			}
 		}
@@ -122,11 +110,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher0_LeftHand;
+				return table.Persons.ElementAt(0).HasLeftFork;
 			}
 			set
 			{
-				philosopher0_LeftHand = value;
+				table.Persons.ElementAt(0).HasLeftFork = value;
 				OnPropertyChanged("Philosopher0_LeftHand");
 			}
 		}
@@ -134,11 +122,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher1_LeftHand;
+				return table.Persons.ElementAt(1).HasLeftFork;
 			}
 			set
 			{
-				philosopher1_LeftHand = value;
+				table.Persons.ElementAt(1).HasLeftFork = value;
 				OnPropertyChanged("Philosopher1_LeftHand");
 			}
 		}
@@ -146,11 +134,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher2_LeftHand;
+				return table.Persons[2].HasLeftFork;
 			}
 			set
 			{
-				philosopher2_LeftHand = value;
+				table.Persons[2].HasLeftFork = value;
 				OnPropertyChanged("Philosopher2_LeftHand");
 			}
 		}
@@ -158,11 +146,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher3_LeftHand;
+				return table.Persons[3].HasLeftFork;
 			}
 			set
 			{
-				philosopher3_LeftHand = value;
+				table.Persons[3].HasLeftFork = value;
 				OnPropertyChanged("Philosopher3_LeftHand");
 			}
 		}
@@ -170,11 +158,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher4_LeftHand;
+				return table.Persons[4].HasLeftFork;
 			}
 			set
 			{
-				philosopher4_LeftHand = value;
+				table.Persons[4].HasLeftFork = value;
 				OnPropertyChanged("Philosopher4_LeftHand");
 			}
 		}
@@ -182,11 +170,11 @@ namespace Dining_Philosophers.ViewModels
 		{
 			get
 			{
-				return philosopher5_LeftHand;
+				return table.Persons[5].HasLeftFork;
 			}
 			set
 			{
-				philosopher5_LeftHand = value;
+				table.Persons[5].HasLeftFork = value;
 				OnPropertyChanged("Philosopher5_LeftHand");
 			}
 		}
@@ -265,195 +253,82 @@ namespace Dining_Philosophers.ViewModels
 			}
 		}
 
-		private bool ForkRightHand
-		{
-			get
-			{
-				if (person.ID == 0)
-				{
-					Philosopher0_RightHand = person.HasRightFork;
-					return Philosopher0_RightHand;
-				}
-				else if (person.ID == 1)
-				{
-					Philosopher1_RightHand = person.HasRightFork;
-					return Philosopher1_RightHand;
-				}
-				else if (person.ID == 2)
-				{
-					Philosopher2_RightHand = person.HasRightFork;
-					return Philosopher2_RightHand;
-				}
-				else if (person.ID == 3)
-				{
-					Philosopher3_RightHand = person.HasRightFork;
-					return Philosopher3_RightHand;
-				}
-				else if (person.ID == 4)
-				{
-					Philosopher4_RightHand = person.HasRightFork;
-					return Philosopher4_RightHand;
-				}
-				else if (person.ID == 5)
-				{
-					Philosopher5_RightHand = person.HasRightFork;
-					return Philosopher5_RightHand;
-				}
-				else
-				{
-					return person.HasRightFork;
-				}
-			}
-			set
-			{
-				if (person.ID == 0)
-				{
-					Philosopher0_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher0_RightHand");
-				}
-				else if (person.ID == 1)
-				{
-					Philosopher1_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher1_RightHand");
-				}
-				else if (person.ID == 2)
-				{
-					Philosopher2_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher2_RightHand");
-				}
-				else if (person.ID == 3)
-				{
-					Philosopher3_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher3_RightHand");
-				}
-				else if (person.ID == 4)
-				{
-					Philosopher4_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher4_RightHand");
-				}
-				else if (person.ID == 5)
-				{
-					Philosopher5_RightHand = person.HasRightFork;
-					OnPropertyChanged("Philosopher5_RightHand");
-				}
-
-				UpdateForkOnTable(person.RightForkId);
-			}
-		}
-
-		private bool ForkLeftHand
-		{
-			get
-			{
-				if (person.ID == 0)
-				{
-					Philosopher0_LeftHand = person.HasLeftFork;
-					return Philosopher0_LeftHand;
-				}
-				else if (person.ID == 1)
-				{
-					Philosopher1_LeftHand = person.HasLeftFork;
-					return Philosopher1_LeftHand;
-				}
-				else if (person.ID == 2)
-				{
-					Philosopher2_LeftHand = person.HasLeftFork;
-					return Philosopher2_LeftHand;
-				}
-				else if (person.ID == 3)
-				{
-					Philosopher3_LeftHand = person.HasLeftFork;
-					return Philosopher3_LeftHand;
-				}
-				else if (person.ID == 4)
-				{
-					Philosopher4_LeftHand = person.HasLeftFork;
-					return Philosopher4_LeftHand;
-				}
-				else if (person.ID == 5)
-				{
-					Philosopher5_LeftHand = person.HasLeftFork;
-					return Philosopher5_LeftHand;
-				}
-				else
-				{
-					return person.HasLeftFork;
-				}
-			}
-			set
-			{
-				if (person.ID == 0)
-				{
-					Philosopher0_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher0_LeftHand");
-				}
-				else if (person.ID == 1)
-				{
-					Philosopher1_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher1_LeftHand");
-				}
-				else if (person.ID == 2)
-				{
-					Philosopher2_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher2_LeftHand");
-				}
-				else if (person.ID == 3)
-				{
-					Philosopher3_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher3_LeftHand");
-				}
-				else if (person.ID == 4)
-				{
-					Philosopher4_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher4_LeftHand");
-				}
-				else if (person.ID == 5)
-				{
-					Philosopher5_LeftHand = person.HasLeftFork;
-					OnPropertyChanged("Philosopher5_LeftHand");
-				}
-
-				UpdateForkOnTable(person.LeftForkId);
-			}
-		}
-
+		// Command properties for delegates..
 		public ICommand StartButton { get; set; }
 		public ICommand ResetButton { get; set; }
 
+		// Slider property.
 		public double SpeedSliderValue
 		{
 			get
 			{
-				return person.ThinkingTime;
+				return Persons.FirstOrDefault().ThinkingTime;
 			}
 			set
 			{
-				person.ThinkingTime = value;
+				foreach (Person person in Persons)
+				{
+					person.ThinkingTime = value;
+				}
 				OnPropertyChanged("SpeedSliderValue");
 			}
 		}
 
+		// Public properties for button settings.
+		public Brush ButtonColor
+		{
+			get
+			{
+				return buttonColor;
+			}
+			set
+			{
+				buttonColor = value;
+				OnPropertyChanged("ButtonColor");
+			}
+		}
+
+		// Public property for observable collection of Philosopher models.
+		public ObservableCollection<Person> Persons
+		{
+			get
+			{
+				return table.Persons;
+			}
+			set
+			{
+				table.Persons = value;
+				OnPropertyChanged("Persons");
+			}
+		}
+
+		// ViewModel contructor.
 		public PhilosopherViewModel()
 		{
 			// Set the simulation to use.
 			// Added amout of philosophers static..... Change this to binding......
-			diningSimulation = new DiningSimulation(6);
+			//Persons = new ObservableCollection<Person>();
+			table = new Table(6);
+			diningSimulation = new DiningSimulation(6, table);
 
 			// Create new delegate commands for the buttons in PhilosophersView.
 			StartButton = new DelegateCommand(new Action<object>(StartButtonAction));
 			ResetButton = new DelegateCommand(new Action<object>(ResetButtonAction));
 		}
 
+		// Method for button actions.
 		private void StartButtonAction(object obj)
 		{
+			ButtonColor = Brushes.LightGreen;
 			diningSimulation.Start();
 		}
 
 		private void ResetButtonAction(object obj)
 		{
-			diningSimulation.Reset();
+			diningSimulation.Pause();
 		}
 
+		// Helper methods.
 		private void UpdateForkOnTable(int id)
 		{
 			if (id == 0)
