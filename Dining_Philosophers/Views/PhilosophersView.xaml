@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dining_Philosophers.Views"
         xmlns:ViewModels="clr-namespace:Dining_Philosophers.ViewModels"
+        xmlns:data="clr-namespace:Dining_Philosophers.Converters"
         mc:Ignorable="d"
-        Title="Philosophers Simulator" Height="800" Width="1200">
+        Title="Philosophers Simulator" MinHeight="750" Height="800" MinWidth="1000" Width="1200">
 
     <Window.DataContext>
         <ViewModels:PhilosopherViewModel/>
     </Window.DataContext>
 
-        <!-- Load resource boolean to visibility converter -->
-    <Window.Resources >
+    <!-- Load resource boolean to visibility converter -->
+    <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <data:BoolToPlateImageConverter x:Key="BoolToPlateImageConverter"/>
     </Window.Resources>
 
     <!-- Parrent top grid view -->
@@ -116,7 +118,7 @@
             </Grid>
 
             <!-- Dining Table - Center of the screen -->
-            <Grid Background="DarkGray">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
@@ -133,39 +135,75 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding CurrentTableCloth.Image}" Stretch="UniformToFill"/>
+                </Grid.Background>
 
                 <!-- Plates on table -->
-                <Image x:Name="plate1" Grid.Row="1" Grid.Column="0" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate2" Grid.Row="4" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate3" Grid.Row="4" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate4" Grid.Row="1" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate5" Grid.Row="0" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
-                <Image x:Name="plate6" Grid.Row="0" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="/Images/Plate.png"/>
+                <Image x:Name="plate0" Grid.Row="1" Grid.Column="0" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[0].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
+                <Image x:Name="plate1" Grid.Row="0" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[1].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
+                <Image x:Name="plate2" Grid.Row="0" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[2].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
+                <Image x:Name="plate3" Grid.Row="1" Grid.Column="8" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[3].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
+                <Image x:Name="plate4" Grid.Row="4" Grid.Column="6" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[4].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
+                <Image x:Name="plate5" Grid.Row="4" Grid.Column="2" Width="80" VerticalAlignment="Center" Height="80" Source="{Binding Persons[5].Eating, Converter={StaticResource BoolToPlateImageConverter}}"/>
                 <Image x:Name="middleBowl" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="3" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Images/SpaghettiBowl.png"/>
+
+                <!-- Forks on table-->
+                <Image x:Name="TableFork0" Grid.Row="0" Grid.Column="0" Margin="15" Source="/Images/ForkDown.png" Visibility="{Binding TableForks[0], Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="TableFork1" Grid.Row="0" Grid.Column="4" Margin="15" Source="/Images/ForkDown.png" Visibility="{Binding TableForks[1], Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="TableFork2" Grid.Row="0" Grid.Column="8" Margin="15" Source="/Images/ForkDown.png" Visibility="{Binding TableForks[2], Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="TableFork3" Grid.Row="2" Grid.Column="8" Margin="15" Source="/Images/ForkUp.png" Visibility="{Binding TableForks[3], Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="TableFork4" Grid.Row="2" Grid.Column="4" Margin="15" Source="/Images/ForkUp.png" Visibility="{Binding TableForks[4], Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Image x:Name="TableFork5" Grid.Row="2" Grid.Column="0" Margin="15" Source="/Images/ForkUp.png" Visibility="{Binding TableForks[5], Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
 
         </DockPanel>
 
-        <!-- Bottom grid view for controls and button -->
-        <Grid Grid.Row="1" Margin="10" HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="5" ShowGridLines="True">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Button and sliders section -->
-            <Button x:Name="StartButton" Content="Start" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding StartButton}" Background="{Binding ButtonColor}"/>
-            <Button x:Name="ResetButton" Content="Nulstil" FontWeight="Bold" Grid.Column="1" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding ResetButton}" />
+            <Grid Grid.Column="0" Margin="5">
+                <StackPanel>
+                    <ComboBox ItemsSource="{Binding TableCloths}" SelectedItem="{Binding CurrentTableCloth}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Image}" Width="16" Height="16"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
 
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,0,10,10">
-                <Label x:Name="SpeedSliderLabel" Content="Hastighed" FontSize="12"/>
-                <Slider x:Name="SpeedSlider" Minimum="300" Maximum="5000" Value="{Binding SpeedSliderValue}" />
-            </StackPanel>
+            <!-- Bottom center grid view for controls and button -->
+            <Grid Grid.Column="1" Margin="5" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Button and sliders section -->
+                <Button x:Name="StartAndStopButton" Content="{Binding StartStopButtonText}" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding StartStopButton}" Background="{Binding StartStopButtonColor}"/>
+                <Button x:Name="PauseAndResumeButton" Content="{Binding PauseResumeButtonText}" FontWeight="Bold" Grid.Column="1" Grid.Row="0" Width="100" Height="25" Margin="10" Command="{Binding PauseResumeButton}" Background="{Binding PauseResumeButtonColor}" IsEnabled="{Binding PauseResumeButtonIsEnable}"/>
+
+                <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,0,10,10">
+                    <Label x:Name="SpeedSliderLabel" Content="Hastighed" FontSize="12"/>
+                    <Slider x:Name="SpeedSlider" Minimum="300" Maximum="5000"  Value="{Binding SpeedSliderValue}" IsDirectionReversed="True" />
+                </StackPanel>
+            </Grid>
         </Grid>
+
+
 
     </Grid>
 </Window>

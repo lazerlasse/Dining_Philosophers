@@ -11,7 +11,7 @@ namespace Dining_Philosophers.Models
         // Default Spaghetti
         private string name = "Spaghetti";
         // Time to eat in milliseconds
-        private int portionEatTime = 1000;
+        private int portionEatTime = 5000;
 
 
         public string Name

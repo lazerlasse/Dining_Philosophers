@@ -15,17 +15,18 @@ namespace Dining_Philosophers.Models
 		private readonly object bowlLock = new object();
 
 		// Set table properties..
-        private static object[] forks;
+        private static object[] forkLockObjects;
         private ObservableCollection<Person> persons;
+        private static ObservableCollection<bool> forks;
 		private Thread[] philosopherThreads;
 
 		// Bowl with food to eat.
 		public Food BowlContent { get; set; }
 
-        public static object[] Forks
+        public static object[] ForkLockObjects
         {
-            get { return forks; }
-            set { forks = value; }
+            get { return forkLockObjects; }
+            set { forkLockObjects = value; }
         }
 
         public ObservableCollection<Person> Persons
@@ -38,6 +39,17 @@ namespace Dining_Philosophers.Models
 			{
 				persons = value;
 			}
+        }
+        public static ObservableCollection<bool> Forks
+        {
+            get
+            {
+                return forks;
+            }
+            set
+            {
+                forks = value;
+            }
         }
 
 		public Thread[] PhilosopherThreads
@@ -57,15 +69,16 @@ namespace Dining_Philosophers.Models
 		{
             // Fill bowl with choosen food.
             BowlContent = new Food();
-			Forks = new object[diningPersonCount];
+			ForkLockObjects = new object[diningPersonCount];
 			Persons = new ObservableCollection<Person>();
-			PhilosopherThreads = new Thread[diningPersonCount];
+            Forks = new ObservableCollection<bool>();
 
 			// Create chosen amount of Philosophers and Forks...
 			for (int i = 0; i < diningPersonCount; i++)
 			{
 				Persons.Insert(i, new Philosopher(i, BowlContent.PortionEatTime));
-				Forks[i] = new object();
+				ForkLockObjects[i] = new object();
+                Forks.Insert(i, true);
 			}
         }
 	}

@@ -8,373 +8,229 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Dining_Philosophers.Delegates;
 using Dining_Philosophers.Simulator;
+using Dining_Philosophers.Helpers;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 
 namespace Dining_Philosophers.ViewModels
 {
-	class PhilosopherViewModel : BaseViewModel
-	{
-		private Table table;
+    class PhilosopherViewModel : BaseViewModel
+    {
+        // Reference property for table.
+        private readonly Table table;
 
-		// Private properties for the fork on table.
-		private bool forkAtTable0;
-		private bool forkAtTable1;
-		private bool forkAtTable2;
-		private bool forkAtTable3;
-		private bool forkAtTable4;
-		private bool forkAtTable5;
+        // Private button settings properties.
+        private Brush startStopButtonColor = Brushes.LightGray;
+        private Brush pauseResumeButtonColor = Brushes.LightGray;
+        private string startStopButtonText = ButtonStates.Start.ToString();
+        private string pauseResumeButtonText = ButtonStates.Pause.ToString();
+        private bool pauseResumeButtonIsEnable = false;
 
-		// Button settings properties.
-		private Brush buttonColor = Brushes.LightGray;
+        // Private property for table settings.
+        private TableCloth currentTableCloth;
 
-		// Navigation property.
-		private DiningSimulation diningSimulation;
+        // Private property for collections.
+        private ObservableCollection<TableCloth> tableCloths;
 
-		// Philosophers right hand properties.
-		public bool Philosopher0_RightHand
-		{
-			get
-			{
-				return Persons.ElementAt(0).HasRightFork;
-			}
-			set
-			{
-				Persons.ElementAt(0).HasRightFork = value;
-				OnPropertyChanged("Philosopher0_RightHand");
-			}
-		}
-		public bool Philosopher1_RightHand
-		{
-			get
-			{
-				return Persons.ElementAt(1).HasRightFork;
-			}
-			set
-			{
-				Persons.ElementAt(1).HasRightFork = value;
-				OnPropertyChanged("Philosopher1_RightHand");
-			}
-		}
-		public bool Philosopher2_RightHand
-		{
-			get
-			{
-				return table.Persons[2].HasRightFork;
-			}
-			set
-			{
-				table.Persons[2].HasRightFork = value;
-				OnPropertyChanged("Philosopher2_RightHand");
-			}
-		}
-		public bool Philosopher3_RightHand
-		{
-			get
-			{
-				return table.Persons[3].HasRightFork;
-			}
-			set
-			{
-				table.Persons[3].HasRightFork = value;
-				OnPropertyChanged("Philosopher3_RightHand");
-			}
-		}
-		public bool Philosopher4_RightHand
-		{
-			get
-			{
-				return table.Persons[4].HasRightFork;
-			}
-			set
-			{
-				table.Persons[4].HasRightFork = value;
-				OnPropertyChanged("Philosopher4_RightHand");
-			}
-		}
-		public bool Philosopher5_RightHand
-		{
-			get
-			{
-				return table.Persons[5].HasRightFork;
-			}
-			set
-			{
-				table.Persons[5].HasRightFork = value;
-				OnPropertyChanged("Philosopher5_RightHand");
-			}
-		}
+        // Navigation property.
+        private DiningSimulation diningSimulation;
 
-		// Philosophers left hand public properties.
-		public bool Philosopher0_LeftHand
-		{
-			get
-			{
-				return table.Persons.ElementAt(0).HasLeftFork;
-			}
-			set
-			{
-				table.Persons.ElementAt(0).HasLeftFork = value;
-				OnPropertyChanged("Philosopher0_LeftHand");
-			}
-		}
-		public bool Philosopher1_LeftHand
-		{
-			get
-			{
-				return table.Persons.ElementAt(1).HasLeftFork;
-			}
-			set
-			{
-				table.Persons.ElementAt(1).HasLeftFork = value;
-				OnPropertyChanged("Philosopher1_LeftHand");
-			}
-		}
-		public bool Philosopher2_LeftHand
-		{
-			get
-			{
-				return table.Persons[2].HasLeftFork;
-			}
-			set
-			{
-				table.Persons[2].HasLeftFork = value;
-				OnPropertyChanged("Philosopher2_LeftHand");
-			}
-		}
-		public bool Philosopher3_LeftHand
-		{
-			get
-			{
-				return table.Persons[3].HasLeftFork;
-			}
-			set
-			{
-				table.Persons[3].HasLeftFork = value;
-				OnPropertyChanged("Philosopher3_LeftHand");
-			}
-		}
-		public bool Philosopher4_LeftHand
-		{
-			get
-			{
-				return table.Persons[4].HasLeftFork;
-			}
-			set
-			{
-				table.Persons[4].HasLeftFork = value;
-				OnPropertyChanged("Philosopher4_LeftHand");
-			}
-		}
-		public bool Philosopher5_LeftHand
-		{
-			get
-			{
-				return table.Persons[5].HasLeftFork;
-			}
-			set
-			{
-				table.Persons[5].HasLeftFork = value;
-				OnPropertyChanged("Philosopher5_LeftHand");
-			}
-		}
+        // Command properties for delegates..
+        public ICommand StartStopButton { get; set; }
+        public ICommand PauseResumeButton { get; set; }
 
-		// Forks at the table properties...
-		public bool ForkAtTable0
-		{
-			get
-			{
-				return forkAtTable0;
-			}
-			set
-			{
-				forkAtTable0 = value;
-				OnPropertyChanged("ForkAtTable0");
-			}
-		}
-		public bool ForkAtTable1
-		{
-			get
-			{
-				return forkAtTable1;
-			}
-			set
-			{
-				forkAtTable1 = value;
-				OnPropertyChanged("ForkAtTable1");
-			}
-		}
-		public bool ForkAtTable2
-		{
-			get
-			{
-				return forkAtTable2;
-			}
-			set
-			{
-				forkAtTable2 = value;
-				OnPropertyChanged("ForkAtTable2");
-			}
-		}
-		public bool ForkAtTable3
-		{
-			get
-			{
-				return forkAtTable3;
-			}
-			set
-			{
-				forkAtTable3 = value;
-				OnPropertyChanged("ForkAtTable3");
-			}
-		}
-		public bool ForkAtTable4
-		{
-			get
-			{
-				return forkAtTable4;
-			}
-			set
-			{
-				forkAtTable4 = value;
-				OnPropertyChanged("ForkAtTable4");
-			}
-		}
-		public bool ForkAtTable5
-		{
-			get
-			{
-				return forkAtTable5;
-			}
-			set
-			{
-				forkAtTable5 = value;
-				OnPropertyChanged("ForkAtTable5");
-			}
-		}
+        // Slider property.
+        public double SpeedSliderValue
+        {
+            get
+            {
+                return Persons.FirstOrDefault().ThinkingTime;
+            }
+            set
+            {
+                foreach (Person person in Persons)
+                {
+                    person.ThinkingTime = value;
+                }
+                OnPropertyChanged("SpeedSliderValue");
+            }
+        }
 
-		// Command properties for delegates..
-		public ICommand StartButton { get; set; }
-		public ICommand ResetButton { get; set; }
+        // Public properties for button settings.
+        public Brush StartStopButtonColor
+        {
+            get
+            {
+                return startStopButtonColor;
+            }
+            set
+            {
+                startStopButtonColor = value;
+                OnPropertyChanged("StartStopButtonColor");
+            }
+        }
+        public Brush PauseResumeButtonColor
+        {
+            get
+            {
+                return pauseResumeButtonColor;
+            }
+            set
+            {
+                pauseResumeButtonColor = value;
+                OnPropertyChanged("PauseResumeButtonColor");
+            }
+        }
+        public string StartStopButtonText
+        {
+            get
+            {
+                return startStopButtonText;
+            }
+            set
+            {
+                startStopButtonText = value;
+                OnPropertyChanged("StartStopButtonText");
+            }
+        }
+        public string PauseResumeButtonText
+        {
+            get
+            {
+                return pauseResumeButtonText;
+            }
+            set
+            {
+                pauseResumeButtonText = value;
+                OnPropertyChanged("PauseResumeButtonText");
+            }
+        }
+        public bool PauseResumeButtonIsEnable
+        {
+            get
+            {
+                return pauseResumeButtonIsEnable;
+            }
+            set
+            {
+                pauseResumeButtonIsEnable = value;
+                OnPropertyChanged("PauseResumeButtonIsEnable");
+            }
+        }
 
-		// Slider property.
-		public double SpeedSliderValue
-		{
-			get
-			{
-				return Persons.FirstOrDefault().ThinkingTime;
-			}
-			set
-			{
-				foreach (Person person in Persons)
-				{
-					person.ThinkingTime = value;
-				}
-				OnPropertyChanged("SpeedSliderValue");
-			}
-		}
 
-		// Public properties for button settings.
-		public Brush ButtonColor
-		{
-			get
-			{
-				return buttonColor;
-			}
-			set
-			{
-				buttonColor = value;
-				OnPropertyChanged("ButtonColor");
-			}
-		}
+        // Public property for observable collection of Philosopher models.
+        public ObservableCollection<Person> Persons
+        {
+            get
+            {
+                return table.Persons;
+            }
+            set
+            {
+                table.Persons = value;
+            }
+        }
+        public ObservableCollection<bool> TableForks
+        {
+            get
+            {
+                return Table.Forks;
+            }
+            set
+            {
+                Table.Forks = value;
+            }
+        }
+        public ObservableCollection<TableCloth> TableCloths
+        {
+            get
+            {
+                return tableCloths;
+            }
+            set
+            {
+                tableCloths = value;
+            }
+        }
 
-		// Public property for observable collection of Philosopher models.
-		public ObservableCollection<Person> Persons
-		{
-			get
-			{
-				return table.Persons;
-			}
-			set
-			{
-				table.Persons = value;
-				OnPropertyChanged("Persons");
-			}
-		}
 
-		// ViewModel contructor.
-		public PhilosopherViewModel()
-		{
-			// Set the simulation to use.
-			// Added amout of philosophers static..... Change this to binding......
-			//Persons = new ObservableCollection<Person>();
-			table = new Table(6);
-			diningSimulation = new DiningSimulation(6, table);
+        // Public properties for table settings.
+        public TableCloth CurrentTableCloth
+        {
+            get
+            {
+                return currentTableCloth;
+            }
+            set
+            {
+                currentTableCloth = value;
+                OnPropertyChanged("CurrentTableCloth");
+            }
+        }
 
-			// Create new delegate commands for the buttons in PhilosophersView.
-			StartButton = new DelegateCommand(new Action<object>(StartButtonAction));
-			ResetButton = new DelegateCommand(new Action<object>(ResetButtonAction));
-		}
+        // ViewModel contructor.
+        public PhilosopherViewModel()
+        {
+            // Set the simulation and table to use. Amount of persons to eat is set static for now.
+            table = new Table(6);
+            diningSimulation = new DiningSimulation(6, table);
 
-		// Method for button actions.
-		private void StartButtonAction(object obj)
-		{
-			ButtonColor = Brushes.LightGreen;
-			diningSimulation.Start();
-		}
+            // Create new delegate commands for the buttons in PhilosophersView.
+            StartStopButton = new DelegateCommand(new Action<object>(StartStopButtonAction));
+            PauseResumeButton = new DelegateCommand(new Action<object>(PauseResumeButtonAction));
 
-		private void ResetButtonAction(object obj)
-		{
-			diningSimulation.Pause();
-		}
+            // Fill TableCloth ObservableCollection with data.
+            TableCloths = FillTableClothCollection.FillCollection();
+            CurrentTableCloth = TableCloths[0];
+        }
 
-		// Helper methods.
-		private void UpdateForkOnTable(int id)
-		{
-			if (id == 0)
-			{
-				ForkAtTable0 = CheckTrueFalse(ForkAtTable0);
-				OnPropertyChanged("ForkAtTable0");
-			}
-			if (id == 1)
-			{
-				ForkAtTable1 = CheckTrueFalse(ForkAtTable1);
-				OnPropertyChanged("ForkAtTable1");
-			}
-			if (id == 2)
-			{
-				ForkAtTable2 = CheckTrueFalse(ForkAtTable2);
-				OnPropertyChanged("ForkAtTable2");
-			}
-			if (id == 3)
-			{
-				ForkAtTable3 = CheckTrueFalse(ForkAtTable3);
-				OnPropertyChanged("ForkAtTable3");
-			}
-			if (id == 4)
-			{
-				ForkAtTable4 = CheckTrueFalse(ForkAtTable4);
-				OnPropertyChanged("ForkAtTable4");
-			}
-			if (id == 5)
-			{
-				ForkAtTable5 = CheckTrueFalse(ForkAtTable5);
-				OnPropertyChanged("ForkAtTable5");
-			}
-		}
+        // Method for button actions.
+        private void StartStopButtonAction(object obj)
+        {
+            if (StartStopButtonText == ButtonStates.Start.ToString())
+            {
+                StartStopButtonColor = Brushes.LightGreen;
+                StartStopButtonText = ButtonStates.Stop.ToString();
+                diningSimulation.Start();
+                PauseResumeButtonIsEnable = true;
+            }
+            else
+            {
+                if (PauseResumeButtonText == ButtonStates.Resume.ToString())
+                {
+                    PauseResumeButtonColor = Brushes.LightGray;
+                    PauseResumeButtonText = ButtonStates.Pause.ToString();
+                }
+                StartStopButtonColor = Brushes.LightGray;
+                StartStopButtonText = ButtonStates.Start.ToString();
+                diningSimulation.Stop();
+                PauseResumeButtonIsEnable = false;
+            }
+        }
 
-		private bool CheckTrueFalse(bool value)
-		{
-			if (value == true)
-			{
-				value = false;
-			}
-			else
-			{
-				value = true;
-			}
+        private void PauseResumeButtonAction(object obj)
+        {
+            if (PauseResumeButtonText == ButtonStates.Pause.ToString())
+            {
+                PauseResumeButtonColor = Brushes.Yellow;
+                PauseResumeButtonText = ButtonStates.Resume.ToString();
+                diningSimulation.Pause();
+            }
+            else
+            {
+                PauseResumeButtonColor = Brushes.LightGray;
+                PauseResumeButtonText = ButtonStates.Pause.ToString();
+                diningSimulation.Resume();
+            }
+        }
 
-			return value;
-		}
-	}
+        private enum ButtonStates
+        {
+            Start,
+            Stop,
+            Pause,
+            Resume
+        }
+    }
 }

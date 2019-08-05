@@ -6,36 +6,39 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections;
 using System.ComponentModel;
+using Dining_Philosophers.Simulator;
 
 namespace Dining_Philosophers.Models
 {
-	public abstract class Person : INotifyPropertyChanged
-	{
-		private bool hasLeftFork;
+    public abstract class Person : INotifyPropertyChanged
+    {
+        private bool hasLeftFork;
         private bool hasRightFork;
 
-		private double thinkingTime = 1000;
+        private bool eating;
 
-		private Random Random = new Random();
+        private double thinkingTime = 1000;
+
+        private readonly Random Random = new Random();
 
         // Adjecent fork Id's so that they can be picked up and returned by the correct persons
         public int RightForkId { get; set; }
-		public int LeftForkId { get; set; }
+        public int LeftForkId { get; set; }
 
-		// Id and name property.
-		public int ID { get; set; }
-		public string Name { get; set; }
+        // Id and name property.
+        public int ID { get; set; }
+        public string Name { get; set; }
 
         // True when fork is picked up, false if unavailable, has a property changed so that the View is notified when changes occur
-		public bool HasLeftFork
-		{
-			get { return hasLeftFork; }
-			set
-			{
-				hasLeftFork = value;
-				OnPropertyChanged("HasLeftFork");
-			}
-		}
+        public bool HasLeftFork
+        {
+            get { return hasLeftFork; }
+            set
+            {
+                hasLeftFork = value;
+                OnPropertyChanged("HasLeftFork");
+            }
+        }
         public bool HasRightFork
         {
             get { return hasRightFork; }
@@ -45,157 +48,193 @@ namespace Dining_Philosophers.Models
                 OnPropertyChanged("HasRightFork");
             }
         }
-        
-		// Public property for thinking time.
-		public double ThinkingTime
-		{
-			get
-			{
-				return thinkingTime;
-			}
-			set
-			{
-				thinkingTime = value;
-				OnPropertyChanged("ThinkingTime");
-			}
-		}
-		
-		// Specifies how long a person eats for
-		public int EatTime { get; private set; }
 
-		public Person()
-		{
-		}
+        // Public property for eating.
+        public bool Eating
+        {
+            get
+            {
+                return eating;
+            }
+            set
+            {
+                eating = value;
+                OnPropertyChanged("Eating");
+            }
+        }
 
-		public Person(int id, string name, int eatTime)
-		{
-			ID = id;
-			Name = name;
-			EatTime = eatTime;
+        // Public property for thinking time.
+        public double ThinkingTime
+        {
+            get
+            {
+                return thinkingTime;
+            }
+            set
+            {
+                thinkingTime = value;
+                OnPropertyChanged("ThinkingTime");
+            }
+        }
 
-			if (ID - 1 == -1)
-			{
-				RightForkId = Table.Forks.Length - 1;
-			}
-			else
-			{
-				RightForkId = ID - 1;
-			}
+        // Specifies how long a person eats for
+        public int EatTime { get; private set; }
 
-			LeftForkId = ID;
-		}
-        
-		
-		// Property Changed initialization
-		public event PropertyChangedEventHandler PropertyChanged;
+        public Person()
+        {
+        }
+
+        public Person(int id, string name, int eatTime)
+        {
+            ID = id;
+            Name = name;
+            EatTime = eatTime;
+
+            if (ID - 1 == -1)
+            {
+                RightForkId = Table.ForkLockObjects.Length - 1;
+            }
+            else
+            {
+                RightForkId = ID - 1;
+            }
+
+            LeftForkId = ID;
+        }
+
+
+        // Property Changed initialization
+        public event PropertyChangedEventHandler PropertyChanged;
 
         // Start living, try to get fork, eat and survive
-		public void StartLiving()
-		{
-            // Infinite loop
-			while (true)
-			{
-				// Tries to get a fork for both hands
-				if (TryToGetFork())
-				{
-					// Start eating
-					Eat();
-				}
-				else
-				{
-					Think();
-				}
-			}
-		}
+        public void StartLiving()
+        {
+            while (true)
+            {
+                DiningSimulation._pauseEvent.WaitOne(Timeout.Infinite);
 
-		// Method for eating. Dependent on food portion eating time.
-		public void Eat()
-		{
-			// Simulate eating
-			Thread.Sleep(EatTime);  // Takes the time to eat from choosen food.
-			Monitor.Exit(Table.Forks[LeftForkId]);
-			Monitor.Exit(Table.Forks[RightForkId]);
-			HasRightFork = false;
-			HasLeftFork = false;
-		}
+                if (DiningSimulation._shutdownEvent.WaitOne(0))
+                    break;
 
-		// Method for trying to get forks on hand...
-		public bool TryToGetFork()
-		{
-			// Try getting forks clockwise.
-			if (Monitor.TryEnter(Table.Forks[LeftForkId]))
-			{
-				// Take fork from table to lefthand.
-				HasLeftFork = true;
-				Thread.Sleep(Random.Next(100, 1500));
+                // Tries to get a fork for both hands
+                if (TryToGetFork())
+                {
+                    // Start eating
+                    Eat();
+                }
+                else
+                {
+                    Thread.Sleep(Random.Next(0, 1500));
+                }
+            }
+        }
 
-				// Check for right fork.
-				if (Monitor.TryEnter(Table.Forks[RightForkId]))
-				{
-					// Take the fork from table to righthand.
-					HasRightFork = true;
+        // Method for eating. Dependent on food portion eating time.
+        public void Eat()
+        {
+            // Set person eating to true.
+            Eating = true;
 
-					// Return succeded the person can now eat.
-					return true;
-				}
-				else
-				{
-					// Return fork to table..
-					Monitor.Exit(Table.Forks[LeftForkId]);
-					HasLeftFork = false;
+            // Simulate eating
+            Thread.Sleep(EatTime);  // Takes the time to eat from choosen food.
 
-					// Return not succeded, person can´t eat.
-					return false;
-				}
-			}
+            // Lay forks back on the table...
+            Monitor.Exit(Table.ForkLockObjects[LeftForkId]);
+            Table.Forks[LeftForkId] = true;
+            HasLeftFork = false;
 
-			// Try getting forks counter clockwise.
-			else
-			{
-				// Check for right fork.
-				if (Monitor.TryEnter(Table.Forks[RightForkId]))
-				{
-					// Take fork from table to right hand..
-					HasRightFork = true;
-					Thread.Sleep(Random.Next(100, 1500));
+            Monitor.Exit(Table.ForkLockObjects[RightForkId]);
+            Table.Forks[RightForkId] = true;
+            HasRightFork = false;
 
-					// Check for left fork.
-					if (Monitor.TryEnter(Table.Forks[LeftForkId]))
-					{
-						// Take fork from table to lefthand...
-						HasLeftFork = true;
+            Eating = false;
+        }
 
-						// return succeded, the person can now eat.
-						return true;
-					}
-					else
-					{
-						// Return fork to table...
-						Monitor.Exit(Table.Forks[RightForkId]);
-						HasRightFork = false;
+        // Method for trying to get forks on hand...
+        public bool TryToGetFork()
+        {
+            // Try getting forks clockwise.
+            if (Monitor.TryEnter(Table.ForkLockObjects[LeftForkId]))
+            {
+                // Take fork from table to lefthand.
+                HasLeftFork = true;
+                Table.Forks[LeftForkId] = false;
+                Think();
 
-						// return not succeded, the person can´t eat.
-						return false;
-					}
-				}
-				else
-				{
-					// Return not succeded the person didn´t get a fork.
-					return false;
-				}
-			}
-		}
+                // Check for right fork.
+                if (Monitor.TryEnter(Table.ForkLockObjects[RightForkId]))
+                {
+                    // Take the fork from table to righthand.
+                    HasRightFork = true;
+                    Table.Forks[RightForkId] = false;
 
-		// Method for persons thinking time before continiue...
-		public void Think()
-		{
-			Thread.Sleep((int)thinkingTime);
-		}
+                    // Return succeded the person can now eat.
+                    return true;
+                }
+                else
+                {
+                    // Return fork to table..
+                    Monitor.Exit(Table.ForkLockObjects[LeftForkId]);
 
-		// Notify property changed event.
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+                    HasLeftFork = false;
+                    Table.Forks[LeftForkId] = true;
+
+                    // Return not succeded, person can´t eat.
+                    return false;
+                }
+            }
+
+            // Try getting forks counter clockwise.
+            else
+            {
+                // Check for right fork.
+                if (Monitor.TryEnter(Table.ForkLockObjects[RightForkId]))
+                {
+                    // Take fork from table to right hand..
+                    HasRightFork = true;
+                    Table.Forks[RightForkId] = false;
+                    Think();
+
+                    // Check for left fork.
+                    if (Monitor.TryEnter(Table.ForkLockObjects[LeftForkId]))
+                    {
+                        // Take fork from table to lefthand...
+                        HasLeftFork = true;
+                        Table.Forks[LeftForkId] = false;
+
+                        // return succeded, the person can now eat.
+                        return true;
+                    }
+                    else
+                    {
+                        // Return fork to table...
+                        Monitor.Exit(Table.ForkLockObjects[RightForkId]);
+
+                        HasRightFork = false;
+                        Table.Forks[RightForkId] = true;
+
+                        // return not succeded, the person can´t eat.
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Return not succeded the person didn´t get a fork.
+                    return false;
+                }
+            }
+        }
+
+        // Method for persons thinking time before continiue...
+        public void Think()
+        {
+            Thread.Sleep(Random.Next(0, (int)thinkingTime));
+        }
+
+        // Notify property changed event.
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

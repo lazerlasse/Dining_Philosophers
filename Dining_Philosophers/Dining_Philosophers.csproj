@@ -55,10 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToPlateImageConverter.cs" />
+    <Compile Include="Helpers\FillTableClothCollection.cs" />
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\IBowl.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\TableCloth.cs" />
     <Compile Include="Simulator\ISimulation.cs" />
     <Compile Include="Simulator\DiningSimulation.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -140,6 +143,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SpaghettiBowl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Plate-full.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TableCloth1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TableCloth2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TableCloth3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TableCloth4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
